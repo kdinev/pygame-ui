@@ -7,6 +7,7 @@
 #	DESCRIPTION: User Interface message box header component designed as a helper for the message
 #		box component. Contains header text, a close button and a minimize button
 #	CONDITIONS: Requires BaseUIComponent.py to run
+#       PROJECT BY: http://www.sarconsrealm.org
 #	
 #	================================================================================================
 
