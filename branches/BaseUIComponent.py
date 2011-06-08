@@ -7,6 +7,7 @@
 #	DESCRIPTION: User Interface base component designed for applications using graphical 
 #		user interface compatible with and designed for the PYGAME library
 #	CONDITIONS: Use with the UIComponentCollection class
+#  PROJECT BY: http://www.sarconsrealm.org
 #	
 #	=======================================================================================
 import pygame
