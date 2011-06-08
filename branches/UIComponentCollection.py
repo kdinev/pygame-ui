@@ -6,6 +6,7 @@
 #	DATE: APRIL 2011
 #	DESCRIPTION: User Interface component collection designed for applications using graphical
 #		user interface compatible with and designed for the PYGAME library
+#       PROJECT BY: http://www.sarconsrealm.org
 #	
 #	===============================================================================================
 
