@@ -6,7 +6,8 @@
 #	DATE: APRIL 2011
 #	DESCRIPTION: User Interface message box component designed for applications using 
 #		graphical user interface compatible with and designed for the PYGAME library
-#	CONDITIONS: Requires BaseUIComponent.py to run
+#	CONDITIONS: Requires BaseUIComponent.py MessageBoxHeader.py Button.py ImageBox.py 
+#         TextLabel.py to run
 #       PROJECT BY: http://www.sarconsrealm.org
 #	
 #	=========================================================================================
