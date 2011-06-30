@@ -30,7 +30,7 @@ class BaseUIComponent(object):
 								# within the same component
 	_hoverCallback = None		# callback function executed on hover
 	_clickCallback = None		# callback function executed on click
-	_disposed = False
+	_disposed = False			# THIS IS HERE TEMPORARILY
 	
 	# ========================= CONSTRUCTORS AND DESTRUCTORS =========================
 	
@@ -78,8 +78,7 @@ class BaseUIComponent(object):
 		return (self._xPosition, self._yPosition)
 		
 	def SetPosition(self, newPosition):
-		self._xPosition = newPosition[0]
-		self._yPosition = newPosition[1]
+		self._xPosition, self._yPosition = newPosition
 		
 	def GetAbsPosition(self):
 		return (self._absX, self._absY)
@@ -142,6 +141,9 @@ class BaseUIComponent(object):
 		self._clicked = False
 		
 	def Click(self, event):
+		# To do: Implement additional enumeration for the new events that would be pushed
+		# 		onto the events queue
+		# pygame.event.post(pygame.event.Event('ComponentClick', {'id': self._id}))
 		if self._clickCallback != None:
 			self._clickCallback(self, event)
 	
