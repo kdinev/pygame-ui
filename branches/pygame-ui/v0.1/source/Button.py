@@ -14,11 +14,11 @@
 from BaseUIComponent import BaseUIComponent
 from TextLabel import TextLabel
 from ImageBox import ImageBox
-import pygame
+import pygame, os
 
-DEFAULT_IMAGE_PATH = "ButtonBackgroundNormal.png"
-DEFAULT_HOVERED_IMAGE_PATH = "ButtonBackgroundHovered.png"
-DEFAULT_CLICKED_IMAGE_PATH = "ButtonBackgroundClicked.png"
+DEFAULT_IMAGE_PATH = os.path.join('images', 'ButtonBackgroundNormal.png')
+DEFAULT_HOVERED_IMAGE_PATH = os.path.join('images', 'ButtonBackgroundHovered.png')
+DEFAULT_CLICKED_IMAGE_PATH = os.path.join('images', 'ButtonBackgroundClicked.png')
 
 class Button(BaseUIComponent):
 	

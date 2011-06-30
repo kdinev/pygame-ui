@@ -14,7 +14,7 @@ width = 800
 height = 600
 
 def CreateMessageBox(control, event):
-	messageBox = MessageBox('MessageBox1', screen, (random.randint(0, 799), random.randint(0, 599)), (350, 150))
+	messageBox = MessageBox('MessageBox1', screen, (random.randint(0, 349), random.randint(0, 349)), (350, 150))
 	collection.Append(messageBox)
 
 screen = pygame.display.set_mode((width, height), 0, 32)

@@ -14,14 +14,14 @@
 from BaseUIComponent import BaseUIComponent
 from TextLabel import TextLabel
 from ImageBox import ImageBox
-import pygame
+import pygame, os
 
-DEFAULT_MINIMIZE_BUTTON_IMAGE = "MinimizeButtonNormal.png"
-DEFAULT_MINIMIZE_BUTTON_HOVERED_IMAGE = "MinimizeButtonHovered.png"
-DEFAULT_MINIMIZE_BUTTON_CLICKED_IMAGE = "MinimizeButtonClicked.png"
-DEFAULT_CLOSE_BUTTON_IMAGE = "CloseButtonNormal.png"
-DEFAULT_CLOSE_BUTTON_HOVERED_IMAGE = "CloseButtonHovered.png"
-DEFAULT_CLOSE_BUTTON_CLICKED_IMAGE = "CloseButtonClicked.png"
+DEFAULT_MINIMIZE_BUTTON_IMAGE = os.path.join('images', 'MinimizeButtonNormal.png')
+DEFAULT_MINIMIZE_BUTTON_HOVERED_IMAGE = os.path.join('images', 'MinimizeButtonHovered.png')
+DEFAULT_MINIMIZE_BUTTON_CLICKED_IMAGE = os.path.join('images', 'MinimizeButtonClicked.png')
+DEFAULT_CLOSE_BUTTON_IMAGE = os.path.join('images', 'CloseButtonNormal.png')
+DEFAULT_CLOSE_BUTTON_HOVERED_IMAGE = os.path.join('images', 'CloseButtonHovered.png')
+DEFAULT_CLOSE_BUTTON_CLICKED_IMAGE = os.path.join('images', 'CloseButtonClicked.png')
 
 class MessageBoxHeader(BaseUIComponent):
 	
