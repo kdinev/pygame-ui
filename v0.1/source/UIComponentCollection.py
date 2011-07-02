@@ -37,10 +37,10 @@ class UIComponentCollection(object):
 	def AppendComponent(self, newComponent):
 		self += newComponent
 		
-	def Focus(component)
+	def Focus(component):
 		self._focusedComponent = component
 		
-	def RemoveFocus()
+	def RemoveFocus():
 		self._focusedComponent = None
 		
 	def Update(self, event):
