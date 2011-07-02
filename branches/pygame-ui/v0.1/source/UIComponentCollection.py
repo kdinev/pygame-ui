@@ -18,6 +18,7 @@ class UIComponentCollection(object):
 	
 	_uiComponentCollection = None
 	_currentMousePosition = None
+	_focusedComponent = None
 	
 	def __init__(self, newCollection = []):
 		self._uiComponentCollection = newCollection
@@ -35,6 +36,12 @@ class UIComponentCollection(object):
 	
 	def AppendComponent(self, newComponent):
 		self += newComponent
+		
+	def Focus(component)
+		self._focusedComponent = component
+		
+	def RemoveFocus()
+		self._focusedComponent = None
 		
 	def Update(self, event):
 		if event.type == MOUSEMOTION:
