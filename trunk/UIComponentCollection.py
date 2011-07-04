@@ -42,10 +42,10 @@ class UIComponentCollection(object):
 			if component.GetId() == id:
 				return component
 		
-	def Focus(component):
+	def Focus(self, component):
 		self._focusedComponent = component
 		
-	def RemoveFocus():
+	def RemoveFocus(self):
 		self._focusedComponent = None
 		
 	def Update(self, event):
@@ -57,12 +57,23 @@ class UIComponentCollection(object):
 					self._uiComponentCollection.remove(component)
 					del component
 		elif event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
+			if self._focusedComponent != None:
+				if self._focusedComponent.MouseDown(event):
+					return
+					
 			for component in self._uiComponentCollection:
 				if not component._disposed:
-					component.MouseDown(event)
+					active = component.MouseDown(event)
+					if active:
+						self.Focus(component)
+						self._uiComponentCollection.remove(component)
+						self._uiComponentCollection.append(component)
+						return
 				else:
 					self._uiComponentCollection.remove(component)
 					del component
+			else:
+				self.RemoveFocus()
 		elif event.type == pygame.MOUSEBUTTONUP and event.button == 1:
 			for component in self._uiComponentCollection:
 				if not component._disposed:

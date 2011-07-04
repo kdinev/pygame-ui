@@ -7,7 +7,7 @@
 #	DESCRIPTION: User Interface button component designed for applications using 
 #		graphical user interface compatible with and designed for the PYGAME library
 #	CONDITIONS: Requires BaseUIComponent.py to run
-#       PROJECT BY: http://www.sarconsrealm.org
+#   PROJECT BY: http://www.sarconsrealm.org
 #	
 #	====================================================================================
 
@@ -33,7 +33,6 @@ class Button(BaseUIComponent):
 		x = (self._width - self._label._width) / 2
 		y = (self._height - self._label._height) / 2
 		self._label.SetPosition((x, y))
-		#self._label = TextLabel(self._controlSurface, (x, y), size, 'Button', 'arial', 18)
 		
 	def __del__(self):
 		del self._label

@@ -14,10 +14,10 @@ width = 800
 height = 600
 
 def CreateMessageBox(control, event):
-	messageBox = MessageBox('MessageBox1', screen, (random.randint(0, 349), random.randint(0, 349)), (350, 150))
-	collection.Append(messageBox)
+	collection.Append(MessageBox('MessageBox1', screen, (random.randint(0, 349), random.randint(0, 349)), (350, 150)))
 
 screen = pygame.display.set_mode((width, height), 0, 32)
+clock = pygame.time.Clock()
 screen.fill((255, 255, 255))
 pygame.display.set_caption('UI Component Test')
 collection = UIComponentCollection()
@@ -45,4 +45,5 @@ while True:
 	screen.fill((255, 255, 255))
 	collection.Render()
 	pygame.display.update()
+	clock.tick(70)
 
