@@ -7,10 +7,21 @@
 #	DESCRIPTION: User Interface base component designed for applications using graphical 
 #		user interface compatible with and designed for the PYGAME library
 #	CONDITIONS: Use with the UIComponentCollection class
-#       PROJECT BY: http://www.sarconsrealm.org
+#   PROJECT BY: http://www.sarconsrealm.org
 #	
 #	=======================================================================================
 import pygame
+
+class ComponentStyle:
+	_top = 0
+	_left = 0
+	_width = 0
+	_height = 0
+	_backgroundImage = None
+	_backgroundColor = None
+	_color = None
+	_fontSize = None
+	_textAlign = None
 
 class BaseUIComponent(object):
 	
@@ -77,6 +88,12 @@ class BaseUIComponent(object):
 	def SetHeight(self, newHeight):
 		self._height = newHeight
 		
+	def SetDimensions(self, newDim):
+		self._width, self._height = newDim
+		
+	def GetDimensions(self):
+		return self._width, self._height
+		
 	def GetPosition(self):
 		return (self._xPosition, self._yPosition)
 		
@@ -92,10 +109,13 @@ class BaseUIComponent(object):
 	def GetId(self):
 		return self._id
 		
+	def Surface():
+		return self._controlSurface
+		
 	# ========================= RENDERER =========================	
 		
 	def Render(self):
-		self._parentSurface.blit(self._controlSurface, (self._xPosition, self._yPosition))
+		self._parentSurface.blit(self._controlSurface, (self._xPosition, self._yPosition), area=(0, 0, self._width, self._height))
 			
 	
 	# ========================= EVENT HANDLERS =========================
@@ -116,6 +136,8 @@ class BaseUIComponent(object):
 		clicked = rect.collidepoint(newMousePosition)
 		if clicked:
 			self.Activate()
+			return True
+		return False
 	
 	# Mouse up fires click on the component if released within the component's bounds
 	# and if the mouse down has also been within component's bounds
