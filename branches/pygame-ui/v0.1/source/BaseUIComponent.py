@@ -12,17 +12,6 @@
 #	=======================================================================================
 import pygame
 
-class ComponentStyle:
-	_top = 0
-	_left = 0
-	_width = 0
-	_height = 0
-	_backgroundImage = None
-	_backgroundColor = None
-	_color = None
-	_fontSize = None
-	_textAlign = None
-
 class BaseUIComponent(object):
 	
 	# ====================================== Members ======================================
@@ -48,10 +37,8 @@ class BaseUIComponent(object):
 	def __init__(self, id, parentSurface, upperLeftCorner = (0, 0), size = (0, 0)):
 		self._id = id
 		self._parentSurface = parentSurface
-		self._xPosition = upperLeftCorner[0]
-		self._yPosition = upperLeftCorner[1]
-		self._width = size[0]
-		self._height = size[1]
+		self._xPosition, self._yPosition = upperLeftCorner
+		self._width, self._height = size
 		
 	def __del__(self):
 		self._disposed = True
@@ -68,7 +55,7 @@ class BaseUIComponent(object):
 	# ========================= ACCESSORS AND MODIFIERS =========================
 	
 	def GetRectangle(self):
-		return self._controlSurface.get_rect(topleft=(self._absX + self._xPosition, self._absY + self._yPosition))
+		return self._controlSurface.get_rect(topleft=(self._absX + self._xPosition, self._absY + self._yPosition), w=self._width, h=self._height)
 		
 	def SetHoverCallback(self, callback):
 		self._hoverCallback = callback
@@ -157,7 +144,7 @@ class BaseUIComponent(object):
 	def Hover(self, event):
 		self._hovered = True
 		if self._hoverCallback != None:
-			self._hoverCallback(self, event)
+			self._hoverCallback()
 	
 	def Unhover(self, event):
 		self._hovered = False
@@ -173,6 +160,6 @@ class BaseUIComponent(object):
 		# 		onto the events queue
 		# pygame.event.post(pygame.event.Event('ComponentClick', {'id': self._id}))
 		if self._clickCallback != None:
-			self._clickCallback(self, event)
+			self._clickCallback()
 	
 	

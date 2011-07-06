@@ -98,14 +98,14 @@ class MessageBox(BaseUIComponent):
 		if not self._minimized:
 			self._text.Render()
 	
-	def ToggleMinimized(self, control, event):
+	def ToggleMinimized(self):
 		self._minimized = not self._minimized
 		if self._minimized:
 			self.SetDimensions(self._header.GetDimensions())
 		else:
 			self.SetDimensions(self._size)
 		
-	def Destroy(self, control, event):
+	def Destroy(self):
 		self._disposed = True
 		
 
@@ -136,12 +136,12 @@ class MessageBoxHeader(BaseUIComponent):
 		self.MinimizeButton()
 		self.HeaderLabel()
 		
-	def __del__(self):
-		del self._headerLabel
-		del self._minimizeButton
-		del self._closeButton
-		del self._backgroundColor
-		BaseUIComponent.__del__(self)
+	# def __del__(self):
+		# del self._headerLabel
+		# del self._minimizeButton
+		# del self._closeButton
+		# del self._backgroundColor
+		# BaseUIComponent.__del__(self)
 		
 	def __str__(self):
 		return str(self._headerLabel)
