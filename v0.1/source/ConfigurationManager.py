@@ -51,16 +51,72 @@ class ConfigurationManager:
 			return None
 
 class ComponentStyle:
+	_initialized = False
 	_top = 0
 	_left = 0
 	_width = 0
+	_widthUnit = 'px'
 	_height = 0
+	_heightUnit = 'px'
 	_backgroundImage = None
 	_backgroundColor = None
 	_color = None
-	_fontSize = None
-	_textAlign = None
+	_fontSize = 0
+	_fontFamily = None
+	_textAlign = 'left'
 	_xmlNode = None
 	
 	def __init__(self, componentNode):
 		self._xmlNode = componentNode
+		
+	def GetDimensions(self):
+		if not self._initialized:
+			self.InitStyles()
+			
+		return (self._width, self._height)
+		
+	def GetWidth(self):
+		if not self._initialized:
+			self.InitStyles()
+			
+		return self._width
+		
+	def GetHeight(self):
+		if not self._initialized:
+			self.InitStyles()
+			
+		return self._height
+		
+	def GetPosition(self):
+		if not self._initialized:
+			self.InitStyles()
+		
+		return (self._top, self._left)
+			
+			
+	def InitStyles(self):
+		if self._xmlNode == None:
+			raise TypeError('Component configuration node not found')
+		else:
+			for child in self._xmlNode.childNodes:
+				if child.nodeName == 'width:
+					unit = child.getAttribute('unit')
+					if unit != None:
+						self._widthUnit = unit
+					self._width = int(child.firstChild.data)
+				elif child.nodeName == 'height':
+					unit = child.getAttribute('unit')
+					if unit != None:
+						self._heightUnit = unit
+					self._height = int(child.firstChild.data)
+				elif child.nodeName == 'top':
+					self._top = int(child.firstChild.data)
+				elif child.nodeName == 'left':
+					self._left = int(child.firstChild.data)
+				elif child.nodeName == 'fontFamily':
+					self._fontFamily = child.firstChild.data
+				elif child.nodeName == 'fontSize':
+					self._fontSize = child.firstChild.data
+			self._initialized = True
+					
+					

@@ -65,7 +65,8 @@ class UIComponentCollection(object):
 				if self._focusedComponent.MouseDown(event):
 					return
 					
-			for component in self._uiComponentCollection:
+			for i in range(-1, -(len(self._uiComponentCollection) + 1), -1):
+				component = self._uiComponentCollection[i]
 				if not component._disposed:
 					active = component.MouseDown(event)
 					if active:

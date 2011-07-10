@@ -107,6 +107,7 @@ class MessageBox(BaseUIComponent):
 		
 	def Destroy(self):
 		self._disposed = True
+		self.__del__()
 		
 
 		
@@ -136,12 +137,12 @@ class MessageBoxHeader(BaseUIComponent):
 		self.MinimizeButton()
 		self.HeaderLabel()
 		
-	# def __del__(self):
-		# del self._headerLabel
-		# del self._minimizeButton
-		# del self._closeButton
-		# del self._backgroundColor
-		# BaseUIComponent.__del__(self)
+	def __del__(self):
+		del self._headerLabel
+		del self._minimizeButton
+		del self._closeButton
+		del self._backgroundColor
+		BaseUIComponent.__del__(self)
 		
 	def __str__(self):
 		return str(self._headerLabel)

@@ -33,12 +33,12 @@ class TextLabel(BaseUIComponent):
 		self._height = self._controlSurface.get_height()
 		
 	def __del__(self):
+		BaseUIComponent.__del__(self)
 		del self._color
 		del self._hoveredColor
 		del self._text
 		del self._font
 		del self._textSize
-		BaseUIComponent.__del__(self)
 		
 	def __str__(self):
 		return self._text

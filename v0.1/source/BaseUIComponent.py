@@ -12,7 +12,7 @@
 #	=======================================================================================
 import pygame
 
-class BaseUIComponent(object):
+class BaseUIComponent:
 	
 	# ====================================== Members ======================================
 	_id = ''					# component's string identifier
@@ -25,6 +25,7 @@ class BaseUIComponent(object):
 	_width = 0					# surface rectangle's width
 	_height = 0					# surface recrangle's height
 	_draggable = False			# enables the surface to be draggable
+	_resizable = False			# enables the surface to be resizable
 	_hovered = False			# flag indicating whether the control is hovered
 	_clicked = False			# flag used to determine if mousedown and mouseup are both
 								# within the same component
@@ -41,9 +42,10 @@ class BaseUIComponent(object):
 		self._width, self._height = size
 		
 	def __del__(self):
-		self._disposed = True
-		del self._controlSurface
-		del self._parentSurface
+		if self._controlSurface != None:
+			del self._controlSurface
+		if self._parentSurface != None:
+			del self._parentSurface
 		if self._hoverCallback != None:
 			del self._hoverCallback
 		if self._clickCallback != None:
