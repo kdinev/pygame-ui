@@ -10,6 +10,7 @@
 #   PROJECT BY: http://www.sarconsrealm.org
 #	
 #	=======================================================================================
+from ConfigurationManager import *
 import pygame
 
 class BaseUIComponent:
@@ -18,6 +19,7 @@ class BaseUIComponent:
 	_id = ''					# component's string identifier
 	_parentSurface = None 		# surface screen to render the control at
 	_controlSurface = None		# control's surface created on the screen
+	_styling = None				# the new css-like styling from xml
 	_xPosition = 0				# upper left corner x-axis position relative to parent 
 	_yPosition = 0				# upper left corner y-axis position relative to parent
 	_absX = 0					# upper left corner absolute x-axis position 
@@ -35,9 +37,11 @@ class BaseUIComponent:
 	
 	# ========================= CONSTRUCTORS AND DESTRUCTORS =========================
 	
-	def __init__(self, id, parentSurface, upperLeftCorner = (0, 0), size = (0, 0)):
+	def __init__(self, id, parentSurface, upperLeftCorner = (0, 0), size = (0, 0), config = None):
 		self._id = id
 		self._parentSurface = parentSurface
+		if config != None:
+			config.InitComponentStyle(id)
 		self._xPosition, self._yPosition = upperLeftCorner
 		self._width, self._height = size
 		
@@ -98,8 +102,14 @@ class BaseUIComponent:
 	def GetId(self):
 		return self._id
 		
-	def Surface():
+	def Surface(self):
 		return self._controlSurface
+		
+	def SetTransparency(self, opacity):
+		self._controlSufrace.set_alpha(opacity)
+		
+	def GetTransparency(self):
+		return self._controlSurface.get_alpha()
 		
 	# ========================= RENDERER =========================	
 		

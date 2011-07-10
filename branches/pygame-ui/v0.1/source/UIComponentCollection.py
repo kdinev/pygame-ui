@@ -13,6 +13,11 @@
 import pygame
 from pygame.locals import *
 from sys import exit
+from ConfigurationManager import ConfigurationManager
+from TextLabel import TextLabel
+from ImageBox import ImageBox
+from Button import Button
+from MessageBox import MessageBox
 
 class UIComponentCollection(object):
 	
