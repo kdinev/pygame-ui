@@ -6,7 +6,7 @@ from UIComponentCollection import UIComponentCollection
 from TextLabel import TextLabel
 from Button import Button
 from MessageBox import MessageBox
-import random
+import random, sys
 
 pygame.init()
 
