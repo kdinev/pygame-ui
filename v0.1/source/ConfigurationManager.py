@@ -28,7 +28,7 @@ class ConfigurationManager:
 			
 		try:
 			self._parsedDom = parse(xmlReader)
-		except TypeError, AttributeError:
+		except (TypeError, AttributeError):
 			print('Error processing the configuration')
 			xmlReader.close()
 			
@@ -40,7 +40,7 @@ class ConfigurationManager:
 		if self._parsedDom.documentElement.nodeName != 'configuration':
 			raise TypeError('Incorrect root node: pygame-ui config requires configuration as its root element')
 		self._stylingElement = self._parsedDom.documentElement.getElemenetsByTagName('styling')[0]
-		if self._stylingElement = None:
+		if self._stylingElement == None:
 			raise TypeError('Component node does not exist in the current configuration')
 		
 		for child in self._stylingElement.childNodes:
@@ -64,6 +64,7 @@ class ComponentStyle:
 	_fontSize = 0
 	_fontFamily = None
 	_textAlign = 'left'
+	_verticalAlign = 'top'
 	_xmlNode = None
 	
 	def __init__(self, componentNode):
@@ -92,14 +93,25 @@ class ComponentStyle:
 			self.InitStyles()
 		
 		return (self._top, self._left)
-			
+	
+	def GetTop(self):
+		if not self._initialized:
+			self.InitStyles()
+		
+		return self._top
+		
+	def GetTop(self):
+		if not self._initialized:
+			self.InitStyles()
+		
+		return self._left
 			
 	def InitStyles(self):
 		if self._xmlNode == None:
 			raise TypeError('Component configuration node not found')
 		else:
 			for child in self._xmlNode.childNodes:
-				if child.nodeName == 'width:
+				if child.nodeName == 'width':
 					unit = child.getAttribute('unit')
 					if unit != None:
 						self._widthUnit = unit
@@ -117,6 +129,26 @@ class ComponentStyle:
 					self._fontFamily = child.firstChild.data
 				elif child.nodeName == 'fontSize':
 					self._fontSize = child.firstChild.data
+				elif child.nodeName == 'backgroundImage':
+					self._backgroundImage = child.firstChild.data
+				elif child.nodeName == 'backgroundColor':
+					self._backgroundColor = self.ParseColor(child.firstChild.data)
+				elif child.nodeName == 'color':
+					self._color = self.ParseColor(child.firstChild.data)
+				elif child.nodeName == 'textAlign':
+					self._textAlign = child.firstChild.data
+				elif child.nodeName == 'verticalAlign':
+					self._verticalAlign = child.firstChild.data
+					
 			self._initialized = True
 					
-					
+	def ParseColor(self, color):
+		# RGB color definition
+		if color[0] == '#':
+			color = color[1:]
+			if len(color) == 6:
+				return pygame.Color(int(color[0:2], 16), int(color[2:4], 16), int(color[4:6], 16))
+			elif len(color) == 3:
+				pass # parse color of type #000
+		# else:
+		# parse color of type keyword e.g. Black, red, YELLOW, etc.
