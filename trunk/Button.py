@@ -28,16 +28,16 @@ class Button(BaseUIComponent):
 	def __init__(self, id, parentSurface, upperLeftCorner = (0, 0), size = (90, 30)):
 		BaseUIComponent.__init__(self, id, parentSurface, upperLeftCorner, size)
 		self._InitSurface()
-		self._backgroundImage = ImageBox(id + '_backGroundImage', self._controlSurface, (0, 0), size, DEFAULT_IMAGE_PATH, DEFAULT_HOVERED_IMAGE_PATH, DEFAULT_CLICKED_IMAGE_PATH)
-		self._label = TextLabel(id + '_text', self._controlSurface, (5, 5), size, 'Button', 'arial', 18)
+		self.BackgroundImage(id + '_backGroundImage', DEFAULT_IMAGE_PATH, DEFAULT_HOVERED_IMAGE_PATH, DEFAULT_CLICKED_IMAGE_PATH)
+		self.Label(id + '_text', 'Button', 'arial', 18)
 		x = (self._width - self._label._width) / 2
 		y = (self._height - self._label._height) / 2
 		self._label.SetPosition((x, y))
 		
 	def __del__(self):
+		BaseUIComponent.__del__(self)
 		del self._label
 		del self._backgroundImage
-		BaseUIComponent.__del__(self)
 		
 	def __str__(self):
 		return str(self._label)
@@ -48,7 +48,7 @@ class Button(BaseUIComponent):
 	def Label(self, id, text = "", font = "arial", textSize = 0, color = (0, 0, 0), hoveredColor = (127, 127, 127)):
 		if self._label != None:
 			del self._label
-		self._label = TextLabel(self._controlSurface, (0, 0), (self._width, self._height), text, font, textSize, color, hoveredColor)
+		self._label = TextLabel(id, self._controlSurface, (0, 0), (self._width, self._height), text, font, textSize, color, hoveredColor)
 		x = (self._width - self._label._width) / 2
 		y = (self._height - self._label._height) / 2
 		self._label.SetPosition((x, y))
