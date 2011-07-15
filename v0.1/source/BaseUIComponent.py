@@ -41,7 +41,7 @@ class BaseUIComponent:
 		self._id = id
 		self._parentSurface = parentSurface
 		if config != None:
-			config.InitComponentStyle(id)
+			self._styling = config.InitComponentStyle(id)
 		self._xPosition, self._yPosition = upperLeftCorner
 		self._width, self._height = size
 		
@@ -85,7 +85,7 @@ class BaseUIComponent:
 		self._width, self._height = newDim
 		
 	def GetDimensions(self):
-		return self._width, self._height
+		return (self._width, self._height)
 		
 	def GetPosition(self):
 		return (self._xPosition, self._yPosition)
@@ -114,7 +114,7 @@ class BaseUIComponent:
 	# ========================= RENDERER =========================	
 		
 	def Render(self):
-		self._parentSurface.blit(self._controlSurface, (self._xPosition, self._yPosition), area=(0, 0, self._width, self._height))
+		self._parentSurface.blit(self._controlSurface, dest=(self._xPosition, self._yPosition), area=(0, 0, self._width, self._height))
 			
 	
 	# ========================= EVENT HANDLERS =========================

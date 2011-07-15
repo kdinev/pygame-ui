@@ -49,6 +49,22 @@ class ConfigurationManager:
 					return ComponentStyle(child)
 		else:
 			return None
+			
+	
+			
+	def FindAllComponents(self):
+		if self._parsedDom.documentElement.nodeName != 'configuration':
+			raise TypeError('Incorrect root node: pygame-ui config requires configuration as its root element')
+		self._stylingElement = self._parsedDom.documentElement.getElemenetsByTagName('styling')[0]
+		if self._stylingElement == None:
+			raise TypeError('Component node does not exist in the current configuration')
+		
+		componentList = []
+		for child in self._stylingElement.childNodes:
+			if child.nodeName == 'component':
+				componentList.append((child.getAttribute('id'), child.getAttribute('type'), ComponentStyle(child)))
+				
+		return componentList
 
 class ComponentStyle:
 	_initialized = False
@@ -105,6 +121,48 @@ class ComponentStyle:
 			self.InitStyles()
 		
 		return self._left
+		
+	def GetBackgroundImage(self):
+		if not self._initialized:
+			self.InitStyles()
+		
+		return self._backgroundImage
+		
+	def GetBackgroundColor(self):
+		if not self._initialized:
+			self.InitStyles()
+			
+		return self._backgroundColor
+		
+	def GetColor(self):
+		if not self._initialized:
+			self.InitStyles()
+			
+		return self._color
+		
+	def GetFontSize(self):
+		if not self._initialized:
+			self.InitStyles()
+			
+		return self._fontSize
+		
+	def GetFontFamily(self):
+		if not self._initialized:
+			self.InitStyles()
+			
+		return self._fontFamily
+		
+	def GetTextAlign(self):
+		if not self._initialized:
+			self.InitStyles()
+			
+		return self._textAlign
+		
+	def GetVerticalAlign(self):
+		if not self._initialized:
+			self.InitStyles()
+			
+		return self._verticalAlign
 			
 	def InitStyles(self):
 		if self._xmlNode == None:
@@ -149,6 +207,6 @@ class ComponentStyle:
 			if len(color) == 6:
 				return pygame.Color(int(color[0:2], 16), int(color[2:4], 16), int(color[4:6], 16))
 			elif len(color) == 3:
-				pass # parse color of type #000
+				return pygame.Color(int(color[0:1] * 2, 16), int(color[1:2] * 2, 16), int(color[2:3] * 2, 16))
 		# else:
 		# parse color of type keyword e.g. Black, red, YELLOW, etc.
