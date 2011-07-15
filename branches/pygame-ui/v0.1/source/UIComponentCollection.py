@@ -24,9 +24,13 @@ class UIComponentCollection(object):
 	_uiComponentCollection = None
 	_currentMousePosition = None
 	_focusedComponent = None
+	_configManager = None
 	
-	def __init__(self, newCollection = []):
+	def __init__(self, config = None, newCollection = []):
 		self._uiComponentCollection = newCollection
+		if config != None:
+			self._configManager = ConfigurationManager(config)
+			self.InitComponents()
 		
 	def __del__(self):
 		for component in self._uiComponentCollection:
@@ -35,6 +39,10 @@ class UIComponentCollection(object):
 	def __add__(self, rhs):
 		self._uiComponentCollection.append(rhs)
 		return self
+		
+	def InitComponents():
+		componentList = self._configManager.FindAllComponents()
+		# To do: Initialization loop
 		
 	def Append(self, component):
 		self._uiComponentCollection.append(component)
