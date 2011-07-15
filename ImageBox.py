@@ -38,13 +38,13 @@ class ImageBox(BaseUIComponent):
 			
 		
 	def __del__(self):
-		del _imagePath
-		del _hoveredImagePath
-		del _clickedImagePath
-		del _loadedImage
-		del _loadedHoveredImage
-		del _loadedClickedImage
 		BaseUIComponent.__del__(self)
+		del self._imagePath
+		del self._hoveredImagePath
+		del self._clickedImagePath
+		del self._loadedImage
+		del self._loadedHoveredImage
+		del self._loadedClickedImage
 		
 	def __str__(self):
 		return self._imagePath

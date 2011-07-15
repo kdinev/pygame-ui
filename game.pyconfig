@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+
+<configuration>
+	
+	<styling>
+		<component id="id1" type="Button">
+			<width unit="px">400</width>
+			<height unit="px">150</height>
+		</component>
+	</styling>
+
+</configuration>
