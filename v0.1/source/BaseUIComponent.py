@@ -13,13 +13,17 @@
 from ConfigurationManager import *
 import pygame
 
-class BaseUIComponent:
+CLICK = pygame.USEREVENT + 1
+COUNT = pygame.USEREVENT + 2
+
+class BaseUIComponent(object):
 	
 	# ====================================== Members ======================================
 	_id = ''					# component's string identifier
 	_parentSurface = None 		# surface screen to render the control at
 	_controlSurface = None		# control's surface created on the screen
-	_styling = None				# the new css-like styling from xml
+	_styling = None				# the new css-like styling from xml which would take over 
+								# the below definitions inside the component
 	_xPosition = 0				# upper left corner x-axis position relative to parent 
 	_yPosition = 0				# upper left corner y-axis position relative to parent
 	_absX = 0					# upper left corner absolute x-axis position 
@@ -58,7 +62,12 @@ class BaseUIComponent:
 	def __str__(self):
 		return self._id
 		
-	# ========================= ACCESSORS AND MODIFIERS =========================
+	# =========================== ACCESSORS AND MODIFIERS ==========================
+	# ========================= new-style class properties =========================
+	
+	@property
+	def rectangle(self):
+		return self._controlSurface.get_rect(topleft=(self._absX + self._xPosition, self._absY + self._yPosition), w=self._width, h=self._height)
 	
 	def GetRectangle(self):
 		return self._controlSurface.get_rect(topleft=(self._absX + self._xPosition, self._absY + self._yPosition), w=self._width, h=self._height)
@@ -69,29 +78,69 @@ class BaseUIComponent:
 	def SetClickCallback(self, callback):
 		self._clickCallback = callback
 		
+	@property
+	def width(self):
+		return self._width
+		
 	def GetWidth(self):
 		return self._width
+		
+	@width.setter
+	def width(self, value):
+		self._width = value
 		
 	def SetWidth(self, newWidth):
 		self._width = newWidth
 		
+	@property
+	def height(self):
+		return self._height
+	
 	def GetHeight(self):
 		return self._height
 		
+	@height.setter
+	def height(self, value):
+		self._height = value
+		
 	def SetHeight(self, newHeight):
 		self._height = newHeight
-		
+	
+	@property
+	def dimensions(self):
+		return (self._width, self._height)
+	
+	@dimensions.setter
+	def dimensions(self, value):
+		self._width, self._height = value
+	
 	def SetDimensions(self, newDim):
 		self._width, self._height = newDim
 		
 	def GetDimensions(self):
 		return (self._width, self._height)
 		
+	@property
+	def position(self):
+		return (self._xPosition, self._yPosition)
+	
+	@position.setter
+	def position(self, value):
+		self._xPosition, self._yPosition = value
+	
 	def GetPosition(self):
 		return (self._xPosition, self._yPosition)
 		
 	def SetPosition(self, newPosition):
 		self._xPosition, self._yPosition = newPosition
+		
+	@property
+	def abs_position(self):
+		return (self._absX, self._absY)
+		
+	@abs_position.setter
+	def abs_position(self, value):
+		self._absX, self._absY = value
 		
 	def GetAbsPosition(self):
 		return (self._absX, self._absY)
@@ -99,12 +148,29 @@ class BaseUIComponent:
 	def SetAbsPosition(self, newPosition):
 		self._absX, self._absY = newPosition
 		
+	@property
+	def id(self):
+		return self._id
+		
+	@id.setter
+	def id(self, value):
+		self._id = id
+		
 	def GetId(self):
 		return self._id
 		
-	def Surface(self):
+	@property
+	def surface(self):
 		return self._controlSurface
-		
+	
+	@property
+	def transparency(self):
+		return self._controlSurface.get_alpha()
+	
+	@transparency.setter
+	def transparency(self, value):
+		self._controlSufrace.set_alpha(value)
+	
 	def SetTransparency(self, opacity):
 		self._controlSufrace.set_alpha(opacity)
 		
@@ -149,9 +215,6 @@ class BaseUIComponent:
 		self.Deactivate()
 	
 	# ========= SECTION OF EVENT METHODS NEEDING A SPECIFIC OVERLOAD WITHIN EACH COMPONENT =========
-	# 
-	# 	To do: How to get dynamic arguments for the callback functions
-	#	Update: Arguements for the callback are the component and the event
 	
 	def Hover(self, event):
 		self._hovered = True
@@ -171,6 +234,8 @@ class BaseUIComponent:
 		# To do: Implement additional enumeration for the new events that would be pushed
 		# 		onto the events queue
 		# pygame.event.post(pygame.event.Event('ComponentClick', {'id': self._id}))
+		# To do: Enumerate all new client events
+		pygame.event.post(pygame.event.Event(CLICK, id=self.id))
 		if self._clickCallback != None:
 			self._clickCallback()
 	
