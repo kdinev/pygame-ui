@@ -15,6 +15,8 @@
 #	=======================================================================================
 from xml.dom.minidom import parse
 
+
+
 class ConfigurationManager:
 	_parsedDom = None
 	_stylingElement = None
@@ -39,7 +41,7 @@ class ConfigurationManager:
 	def InitComponentStyle(self, componentId):
 		if self._parsedDom.documentElement.nodeName != 'configuration':
 			raise TypeError('Incorrect root node: pygame-ui config requires configuration as its root element')
-		self._stylingElement = self._parsedDom.documentElement.getElemenetsByTagName('styling')[0]
+		self._stylingElement = self._parsedDom.documentElement.getElementsByTagName('styling')[0]
 		if self._stylingElement == None:
 			raise TypeError('Component node does not exist in the current configuration')
 		
@@ -86,17 +88,40 @@ class ComponentStyle:
 	def __init__(self, componentNode):
 		self._xmlNode = componentNode
 		
+	def __str__(self):
+		return(str(self.GetTop()))
+	
+	@property
+	def dimensions(self):
+		if not self._initialized:
+			self.InitStyles()
+		return (self._width, self._height)
+		
 	def GetDimensions(self):
 		if not self._initialized:
 			self.InitStyles()
 			
 		return (self._width, self._height)
 		
+	@property
+	def width(self):
+		if not self._initialized:
+			self.InitStyles()
+			
+		return self._width
+		
 	def GetWidth(self):
 		if not self._initialized:
 			self.InitStyles()
 			
 		return self._width
+	
+	@property
+	def height(self):
+		if not self._initialized:
+			self.InitStyles()
+			
+		return self._height
 		
 	def GetHeight(self):
 		if not self._initialized:
@@ -104,13 +129,21 @@ class ComponentStyle:
 			
 		return self._height
 		
+	@property
+	def position(self):
+		if not self._initialized:
+			self.InitStyles()
+		
+		return (self._top, self._left)
+		
 	def GetPosition(self):
 		if not self._initialized:
 			self.InitStyles()
 		
 		return (self._top, self._left)
 	
-	def GetTop(self):
+	@property
+	def top(self):
 		if not self._initialized:
 			self.InitStyles()
 		
@@ -120,13 +153,40 @@ class ComponentStyle:
 		if not self._initialized:
 			self.InitStyles()
 		
+		return self._top
+		
+	@property
+	def left(self):
+		if not self._initialized:
+			self.InitStyles()
+		
 		return self._left
 		
+	def GetLeft(self):
+		if not self._initialized:
+			self.InitStyles()
+		
+		return self._left
+	
+	@property
+	def background_image(self):
+		if not self._initialized:
+			self.InitStyles()
+		
+		return self._backgroundImage
+	
 	def GetBackgroundImage(self):
 		if not self._initialized:
 			self.InitStyles()
 		
 		return self._backgroundImage
+		
+	@property
+	def background_color(self):
+		if not self._initialized:
+			self.InitStyles()
+			
+		return self._backgroundColor
 		
 	def GetBackgroundColor(self):
 		if not self._initialized:
@@ -134,11 +194,25 @@ class ComponentStyle:
 			
 		return self._backgroundColor
 		
+	@property
+	def color(self):
+		if not self._initialized:
+			self.InitStyles()
+			
+		return self._color
+		
 	def GetColor(self):
 		if not self._initialized:
 			self.InitStyles()
 			
 		return self._color
+		
+	@property
+	def font_size(self):
+		if not self._initialized:
+			self.InitStyles()
+			
+		return self._fontSize
 		
 	def GetFontSize(self):
 		if not self._initialized:
@@ -146,17 +220,38 @@ class ComponentStyle:
 			
 		return self._fontSize
 		
+	@property
+	def font_family(self):
+		if not self._initialized:
+			self.InitStyles()
+			
+		return self._fontFamily
+		
 	def GetFontFamily(self):
 		if not self._initialized:
 			self.InitStyles()
 			
 		return self._fontFamily
+	
+	@property
+	def text_align(self):
+		if not self._initialized:
+			self.InitStyles()
+			
+		return self._textAlign
 		
 	def GetTextAlign(self):
 		if not self._initialized:
 			self.InitStyles()
 			
 		return self._textAlign
+		
+	@property
+	def vertical_align(self):
+		if not self._initialized:
+			self.InitStyles()
+			
+		return self._verticalAlign
 		
 	def GetVerticalAlign(self):
 		if not self._initialized:

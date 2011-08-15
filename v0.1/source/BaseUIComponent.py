@@ -31,6 +31,7 @@ class BaseUIComponent(object):
 	_width = 0					# surface rectangle's width
 	_height = 0					# surface recrangle's height
 	_draggable = False			# enables the surface to be draggable
+	_oldMousePosition = None	# updates mouse position in case of draggable
 	_resizable = False			# enables the surface to be resizable
 	_hovered = False			# flag indicating whether the control is hovered
 	_clicked = False			# flag used to determine if mousedown and mouseup are both
@@ -177,6 +178,14 @@ class BaseUIComponent(object):
 	def GetTransparency(self):
 		return self._controlSurface.get_alpha()
 		
+	@property
+	def draggable(self):
+		return self._draggable
+		
+	@draggable.setter
+	def draggable(self, value):
+		self._draggable = value
+		
 	# ========================= RENDERER =========================	
 		
 	def Render(self):
@@ -188,15 +197,25 @@ class BaseUIComponent(object):
 	def MouseMove(self, event):
 		newMousePosition = pygame.mouse.get_pos()
 		rect = self.GetRectangle()
-		hovered = rect.collidepoint(newMousePosition)
-		if not self._hovered and hovered:
-			self.Hover(event)
-		elif self._hovered and not hovered:
-			self.Unhover(event)
+		if self._clicked and self.draggable:
+			self.Drag(newMousePosition)
+		else:
+			hovered = rect.collidepoint(newMousePosition)
+			if not self._hovered and hovered:
+				self.Hover(event)
+			elif self._hovered and not hovered:
+				self.Unhover(event)
+	
+	def Drag(self, newMousePosition):
+		delta = (self._oldMousePosition[0] - newMousePosition[0], self._oldMousePosition[1] - newMousePosition[1])
+		self._xPosition -= delta[0]
+		self._yPosition -= delta[1]
+		self._oldMousePosition = newMousePosition
 			
 	# Mouse down activates the component if the event is within the component's bounds
 	def MouseDown(self, event):
 		newMousePosition = pygame.mouse.get_pos()
+		self._oldMousePosition = newMousePosition
 		rect = self.GetRectangle()
 		clicked = rect.collidepoint(newMousePosition)
 		if clicked:

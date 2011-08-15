@@ -80,6 +80,10 @@ class MessageBox(BaseUIComponent):
 	def MouseMove(self, event):
 		BaseUIComponent.MouseMove(self, event)
 		self._header.MouseMove(event)
+
+	def Drag(self, newMousePosition):
+		BaseUIComponent.Drag(self, newMousePosition)
+		self._header.SetAbsPosition(self.position)
 		
 	def MouseDown(self, event):
 		clicked = BaseUIComponent.MouseDown(self, event)
@@ -175,7 +179,7 @@ class MessageBoxHeader(BaseUIComponent):
 		self._headerLabel.SetAbsPosition(newPosition)
 		self._minimizeButton.SetAbsPosition(newPosition)
 		self._closeButton.SetAbsPosition(newPosition)
-		
+	
 	def MouseMove(self, event):
 		BaseUIComponent.MouseMove(self, event)
 		self._headerLabel.MouseMove(event)
