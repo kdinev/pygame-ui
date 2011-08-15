@@ -30,6 +30,9 @@ button = Button('Button1', screen, (250, 450))
 button.SetClickCallback(CreateMessageBox)
 collection.Append(button)
 
+msgBox = MessageBox('DraggableMessageBox', screen, (random.randint(0, 349), random.randint(0, 349)), (350, 150))
+msgBox.draggable = True
+collection += msgBox
 
 collection.Render()
 pygame.display.update()

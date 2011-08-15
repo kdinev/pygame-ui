@@ -25,8 +25,8 @@ class Button(BaseUIComponent):
 	_label = None						# Button text label
 	_backgroundImage = None				# Button background image
 	
-	def __init__(self, id, parentSurface, upperLeftCorner = (0, 0), size = (90, 30)):
-		BaseUIComponent.__init__(self, id, parentSurface, upperLeftCorner, size)
+	def __init__(self, id, parentSurface, upperLeftCorner = (0, 0), size = (90, 30), config = None):
+		BaseUIComponent.__init__(self, id, parentSurface, upperLeftCorner, size, config)
 		self._InitSurface()
 		self.BackgroundImage(id + '_backGroundImage', DEFAULT_IMAGE_PATH, DEFAULT_HOVERED_IMAGE_PATH, DEFAULT_CLICKED_IMAGE_PATH)
 		self.Label(id + '_text', 'Button', 'arial', 18)
