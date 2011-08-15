@@ -40,9 +40,24 @@ class UIComponentCollection(object):
 		self._uiComponentCollection.append(rhs)
 		return self
 		
+	def __sub__(self, rhs):
+		for component in self._uiComponentCollection:
+			if component.GetId() == rhs.GetId():
+				self._uiComponentCollection.remove(component)
+				del component
+		
 	def InitComponents():
 		componentList = self._configManager.FindAllComponents()
-		# To do: Initialization loop
+		for entry in componentList:
+			if entry[1] == 'TextLabel':
+				self += TextLabel(id = entry[0], config = entry[2])
+			elif entry[1] == 'ImageBox':
+				self += ImageBox(id = entry[0], config = entry[2])
+			elif entry[1] == 'Button':
+				self += Button(id = entry[0], config = entry[2])
+			elif entry[1] == 'MessageBox':
+				self += MessageBox(id = entry[0], config = entry[2])
+		
 		
 	def Append(self, component):
 		self._uiComponentCollection.append(component)
@@ -52,7 +67,7 @@ class UIComponentCollection(object):
 		
 	def GetComponentById(self, id):
 		for component in self._uiComponentCollection:
-			if component.GetId() == id:
+			if component.id == id:
 				return component
 		
 	def Focus(self, component):
