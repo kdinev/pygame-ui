@@ -24,12 +24,8 @@ class BaseUIComponent(object):
 	_controlSurface = None		# control's surface created on the screen
 	_styling = None				# the new css-like styling from xml which would take over 
 								# the below definitions inside the component
-	_xPosition = 0				# upper left corner x-axis position relative to parent 
-	_yPosition = 0				# upper left corner y-axis position relative to parent
 	_absX = 0					# upper left corner absolute x-axis position 
 	_absY = 0					# upper left corner absolute y-axis position
-	_width = 0					# surface rectangle's width
-	_height = 0					# surface recrangle's height
 	_draggable = False			# enables the surface to be draggable
 	_oldMousePosition = None	# updates mouse position in case of draggable
 	_resizable = False			# enables the surface to be resizable
@@ -46,9 +42,9 @@ class BaseUIComponent(object):
 		self._id = id
 		self._parentSurface = parentSurface
 		if config != None:
-			self._styling = config.InitComponentStyle(id)
-		self._xPosition, self._yPosition = upperLeftCorner
-		self._width, self._height = size
+			self.styling = config.InitComponentStyle(id)
+		self.left, self.top = upperLeftCorner
+		self.width, self.height = size
 		
 	def __del__(self):
 		if self._controlSurface != None:
@@ -68,10 +64,10 @@ class BaseUIComponent(object):
 	
 	@property
 	def rectangle(self):
-		return self._controlSurface.get_rect(topleft=(self._absX + self._xPosition, self._absY + self._yPosition), w=self._width, h=self._height)
+		return self._controlSurface.get_rect(topleft=(self._absX + self.left, self._absY + self.top), w=self.width, h=self.height)
 	
 	def GetRectangle(self):
-		return self._controlSurface.get_rect(topleft=(self._absX + self._xPosition, self._absY + self._yPosition), w=self._width, h=self._height)
+		return self._controlSurface.get_rect(topleft=(self._absX + self.left, self._absY + self.top), w=self.width, h=self.height)
 		
 	def SetHoverCallback(self, callback):
 		self._hoverCallback = callback
@@ -81,59 +77,51 @@ class BaseUIComponent(object):
 		
 	@property
 	def width(self):
-		return self._width
-		
-	def GetWidth(self):
-		return self._width
+		return self.styling.width
 		
 	@width.setter
 	def width(self, value):
-		self._width = value
-		
-	def SetWidth(self, newWidth):
-		self._width = newWidth
+		self.styling.width = value
 		
 	@property
 	def height(self):
-		return self._height
-	
-	def GetHeight(self):
-		return self._height
+		return self.styling.height
 		
 	@height.setter
 	def height(self, value):
-		self._height = value
-		
-	def SetHeight(self, newHeight):
-		self._height = newHeight
+		self.styling.height = value
 	
 	@property
 	def dimensions(self):
-		return (self._width, self._height)
+		return (self.width, self.height)
 	
 	@dimensions.setter
 	def dimensions(self, value):
-		self._width, self._height = value
-	
-	def SetDimensions(self, newDim):
-		self._width, self._height = newDim
-		
-	def GetDimensions(self):
-		return (self._width, self._height)
+		self.width, self.height = value
 		
 	@property
 	def position(self):
-		return (self._xPosition, self._yPosition)
+		return (self.left, self.top)
 	
 	@position.setter
 	def position(self, value):
-		self._xPosition, self._yPosition = value
-	
-	def GetPosition(self):
-		return (self._xPosition, self._yPosition)
+		self.left, self.top = value
 		
-	def SetPosition(self, newPosition):
-		self._xPosition, self._yPosition = newPosition
+	@property
+	def top(self):
+		return self.styling.top
+		
+	@top.setter
+	def top(self, value):
+		self.styling.top = value
+		
+	@property
+	def left(self):
+		return self.styling.left
+		
+	@left.setter
+	def left(self, value):
+		self.styling.left = value
 		
 	@property
 	def abs_position(self):
@@ -143,12 +131,6 @@ class BaseUIComponent(object):
 	def abs_position(self, value):
 		self._absX, self._absY = value
 		
-	def GetAbsPosition(self):
-		return (self._absX, self._absY)
-		
-	def SetAbsPosition(self, newPosition):
-		self._absX, self._absY = newPosition
-		
 	@property
 	def id(self):
 		return self._id
@@ -156,9 +138,6 @@ class BaseUIComponent(object):
 	@id.setter
 	def id(self, value):
 		self._id = id
-		
-	def GetId(self):
-		return self._id
 		
 	@property
 	def surface(self):
@@ -171,12 +150,6 @@ class BaseUIComponent(object):
 	@transparency.setter
 	def transparency(self, value):
 		self._controlSufrace.set_alpha(value)
-	
-	def SetTransparency(self, opacity):
-		self._controlSufrace.set_alpha(opacity)
-		
-	def GetTransparency(self):
-		return self._controlSurface.get_alpha()
 		
 	@property
 	def draggable(self):
@@ -186,10 +159,18 @@ class BaseUIComponent(object):
 	def draggable(self, value):
 		self._draggable = value
 		
+	@property
+	def styling(self):
+		return self._styling
+		
+	@styling.setter
+	def styling(self, value):
+		self._styling = value
+		
 	# ========================= RENDERER =========================	
 		
 	def Render(self):
-		self._parentSurface.blit(self._controlSurface, dest=(self._xPosition, self._yPosition), area=(0, 0, self._width, self._height))
+		self._parentSurface.blit(self._controlSurface, dest=self.position, area=(0, 0, self.width, self.height))
 			
 	
 	# ========================= EVENT HANDLERS =========================
@@ -208,8 +189,8 @@ class BaseUIComponent(object):
 	
 	def Drag(self, newMousePosition):
 		delta = (self._oldMousePosition[0] - newMousePosition[0], self._oldMousePosition[1] - newMousePosition[1])
-		self._xPosition -= delta[0]
-		self._yPosition -= delta[1]
+		self.left -= delta[0]
+		self.top -= delta[1]
 		self._oldMousePosition = newMousePosition
 			
 	# Mouse down activates the component if the event is within the component's bounds

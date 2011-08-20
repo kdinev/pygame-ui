@@ -83,6 +83,7 @@ class ComponentStyle:
 	_fontFamily = None
 	_textAlign = 'left'
 	_verticalAlign = 'top'
+	_visibility = 'visible'
 	_xmlNode = None
 	
 	def __init__(self, componentNode):
@@ -133,7 +134,7 @@ class ComponentStyle:
 		self._height = value
 		
 	@property
-	def height_unit
+	def height_unit(self):
 		if not self._initialized:
 			self.InitStyles()
 			
@@ -248,6 +249,17 @@ class ComponentStyle:
 	@vertical_align.setter
 	def vertical_align(self, value):
 		self._verticalAlign = value
+		
+	@property
+	def visibility(self):
+		if not self._initialized:
+			self.InitStyles()
+			
+		return self._visibility
+		
+	@visibility.setter
+	def visibility(self, value):
+		self._visibility = value
 			
 	def InitStyles(self):
 		if self._xmlNode == None:
@@ -282,6 +294,8 @@ class ComponentStyle:
 					self._textAlign = child.firstChild.data
 				elif child.nodeName == 'verticalAlign':
 					self._verticalAlign = child.firstChild.data
+				elif child.nodeName == 'visibility':
+					self._visibility = child.firstChild.data
 					
 			self._initialized = True
 					
@@ -293,5 +307,6 @@ class ComponentStyle:
 				return pygame.Color(int(color[0:2], 16), int(color[2:4], 16), int(color[4:6], 16))
 			elif len(color) == 3:
 				return pygame.Color(int(color[0:1] * 2, 16), int(color[1:2] * 2, 16), int(color[2:3] * 2, 16))
-		# else:
-		# parse color of type keyword e.g. Black, red, YELLOW, etc.
+			else:
+				pass
+				# parse color of type keyword e.g. Black, red, YELLOW, etc.
