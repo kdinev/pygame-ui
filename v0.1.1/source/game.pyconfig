@@ -4,14 +4,15 @@
 	
 	<styling>
 		<component id="Button1" type="Button">
-			<width unit="px">400</width>
-			<height unit="px">150</height>
-		</component>
-		<component id="Button2" type="Button">
 			<width unit="px">90</width>
 			<height unit="px">30</height>
 			<top unit="px">20</top>
 			<left unit="px">200</left>
+		</component>
+		<component id="Label1" type="TextLabel">
+			<top unit="px">20</top>
+			<left unit="px">300</left>
+			<color>#FF3030</color>
 		</component>
 	</styling>
 

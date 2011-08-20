@@ -30,9 +30,9 @@ class Button(BaseUIComponent):
 		self._InitSurface()
 		self.BackgroundImage(id + '_backGroundImage', DEFAULT_IMAGE_PATH, DEFAULT_HOVERED_IMAGE_PATH, DEFAULT_CLICKED_IMAGE_PATH)
 		self.Label(id + '_text', 'Button', 'arial', 18)
-		x = (self._width - self._label._width) / 2
-		y = (self._height - self._label._height) / 2
-		self._label.SetPosition((x, y))
+		x = (self.width - self._label.width) / 2
+		y = (self.height - self._label.height) / 2
+		self._label.position = (x, y)
 		
 	def __del__(self):
 		BaseUIComponent.__del__(self)
@@ -43,21 +43,21 @@ class Button(BaseUIComponent):
 		return str(self._label)
 		
 	def _InitSurface(self):
-		self._controlSurface = pygame.Surface((self._width, self._height), 0, self._parentSurface) 
+		self._controlSurface = pygame.Surface((self.width, self.height), 0, self._parentSurface) 
 		
 	def Label(self, id, text = "", font = "arial", textSize = 0, color = (0, 0, 0), hoveredColor = (127, 127, 127)):
 		if self._label != None:
 			del self._label
-		self._label = TextLabel(id, self._controlSurface, (0, 0), (self._width, self._height), text, font, textSize, color, hoveredColor)
-		x = (self._width - self._label._width) / 2
-		y = (self._height - self._label._height) / 2
-		self._label.SetPosition((x, y))
-		# self._label = TextLabel(id, self._controlSurface, (x, y), (self._width, self._height), text, font, textSize, color, hoveredColor)
+		self._label = TextLabel(id, self._controlSurface, (0, 0), (self.width, self.height), text, font, textSize, color, hoveredColor)
+		x = (self.width - self._label.width) / 2
+		y = (self.height - self._label.height) / 2
+		self._label.position = (x, y)
+		# self._label = TextLabel(id, self._controlSurface, (x, y), (self.width, self.height), text, font, textSize, color, hoveredColor)
 	
 	def BackgroundImage(self, id, imagePath = DEFAULT_IMAGE_PATH, hoveredImagePath = DEFAULT_HOVERED_IMAGE_PATH, clickedImagePath = DEFAULT_CLICKED_IMAGE_PATH):
 		if self._backgroundImage != None:
 			del self._backgroundImage
-		self._backgroundImage = ImageBox(id, self._controlSurface, (0, 0), (self._width, self._height), imagePath, hoveredImagePath, clickedImagePath)
+		self._backgroundImage = ImageBox(id, self._controlSurface, (0, 0), (self.width, self.height), imagePath, hoveredImagePath, clickedImagePath)
 		
 	def Hover(self, event):
 		BaseUIComponent.Hover(self, event)
