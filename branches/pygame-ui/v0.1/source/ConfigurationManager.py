@@ -15,8 +15,6 @@
 #	=======================================================================================
 from xml.dom.minidom import parse
 
-
-
 class ConfigurationManager:
 	_parsedDom = None
 	_stylingElement = None
@@ -91,7 +89,7 @@ class ComponentStyle:
 		self._xmlNode = componentNode
 		
 	def __str__(self):
-		return(str(self.GetTop()))
+		return('{\n top: {0};\n left: {1};\n width: {2}{3};\n height: {4}{5};\n background-image: url({6});\n }\n', self.top, self.left, self.width, self.width_unit, self.height, self.height_unit, self.background_image)
 		
 	# ========================= Properties =========================
 	
@@ -115,6 +113,13 @@ class ComponentStyle:
 	@width.setter
 	def width(self, value):
 		self._width = value
+		
+	@property
+	def width_unit(self):
+		if not self._initialized:
+			self.InitStyles()
+			
+		return self._widthUnit
 	
 	@property
 	def height(self):
@@ -126,6 +131,13 @@ class ComponentStyle:
 	@height.setter
 	def height(self, value):
 		self._height = value
+		
+	@property
+	def height_unit
+		if not self._initialized:
+			self.InitStyles()
+			
+		return self._heightUnit
 		
 	@property
 	def position(self):
