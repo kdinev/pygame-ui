@@ -16,29 +16,23 @@ import pygame
 
 class TextLabel(BaseUIComponent):
 	_text = ""									# text of the label
-	_font = ""									# font to display the text in
-	_textSize = 0								# size of the text in pt
-	_color = (0, 0, 0)							# the color of the text 
 	_hoveredColor = (127, 127, 127)				# the hovered color of the text
 	
-	def __init__(self, id, parentSurface, upperLeftCorner = (0, 0), size = (0, 0), text = "", font = "arial", textSize = 0, color = (0, 0, 0), hoveredColor = (127, 127, 127)):
-		BaseUIComponent.__init__(self, id, parentSurface, upperLeftCorner, size)
+	def __init__(self, id, parentSurface, upperLeftCorner = (0, 0), size = (0, 0), text = "", font = "arial", textSize = 0, color = (0, 0, 0), hoveredColor = (127, 127, 127), config = None):
+		BaseUIComponent.__init__(self, id, parentSurface, upperLeftCorner, size, config)
 		self._text = text
-		self._font = font
-		self._textSize = textSize
-		self._color = color
+		self.font_family = font
+		self.font_size = textSize
+		self.color = color
 		self._hoveredColor = hoveredColor
 		self._InitSurface()
-		self._width = self._controlSurface.get_width()
-		self._height = self._controlSurface.get_height()
+		self.width = self._controlSurface.get_width()
+		self.height = self._controlSurface.get_height()
 		
 	def __del__(self):
 		BaseUIComponent.__del__(self)
-		del self._color
 		del self._hoveredColor
 		del self._text
-		del self._font
-		del self._textSize
 		
 	def __str__(self):
 		return self._text
@@ -47,25 +41,37 @@ class TextLabel(BaseUIComponent):
 		self._text = newText
 		self._InitSurface()
 		
-	def SetFont(self, newFont):
-		self._font = newFont
-		self._InitSurface()
+	@property
+	def font_family(self):
+		return self.styling.font_family
+	
+	@font_family.setter
+	def font_family(self, value):
+		self.styling.font_family = value
 		
-	def SetTextSize(self, newTextSize):
-		self._textSize = newTextSize
-		self._InitSurface()
+	@property
+	def font_size(self):
+		return self.styling.font_size
 		
-	def SetColor(self, newColor):
-		self._color = newColor
-		self._InitSurface()
+	@font_size.setter
+	def font_size(self, value):
+		self.styling.font_size = value
+		
+	@property
+	def color(self):
+		return self.styling.color
+		
+	@color.setter
+	def color(self, value):
+		self.styling.color = value
 		
 	def SetHoveredColor(self, newColor):
 		self._hoveredColor = newColor
 		
 	def _InitSurface(self):
-		font = pygame.font.SysFont(self._font, self._textSize)
+		font = pygame.font.SysFont(self.font_family, self.font_size)
 		if not self._hovered:
-			self._controlSurface = font.render(self._text, True, self._color)
+			self._controlSurface = font.render(self._text, True, self.color)
 		else:
 			self._controlSurface = font.render(self._text, True, self._hoveredColor)
 		
