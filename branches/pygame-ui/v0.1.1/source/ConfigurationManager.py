@@ -86,8 +86,11 @@ class ComponentStyle:
 	_visibility = 'visible'
 	_xmlNode = None
 	
-	def __init__(self, componentNode):
-		self._xmlNode = componentNode
+	def __init__(self, componentNode = None):
+		if componentNode != None:
+			self._xmlNode = componentNode
+		else:
+			self._initialized = True
 		
 	def __str__(self):
 		return('{\n top: {0};\n left: {1};\n width: {2}{3};\n height: {4}{5};\n background-image: url({6});\n }\n', self.top, self.left, self.width, self.width_unit, self.height, self.height_unit, self.background_image)

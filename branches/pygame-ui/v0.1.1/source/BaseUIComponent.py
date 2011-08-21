@@ -14,7 +14,8 @@ from ConfigurationManager import *
 import pygame
 
 CLICK = pygame.USEREVENT + 1
-COUNT = pygame.USEREVENT + 2
+DRAG  = pygame.USEREVENT + 2
+COUNT = pygame.USEREVENT + 3
 
 class BaseUIComponent(object):
 	
@@ -43,8 +44,10 @@ class BaseUIComponent(object):
 		self._parentSurface = parentSurface
 		if config != None:
 			self.styling = config.InitComponentStyle(id)
-		self.left, self.top = upperLeftCorner
-		self.width, self.height = size
+		else:
+			self.styling = ComponentStyle()
+			self.left, self.top = upperLeftCornet
+			self.dimensions = size
 		
 	def __del__(self):
 		if self._controlSurface != None:
@@ -55,6 +58,8 @@ class BaseUIComponent(object):
 			del self._hoverCallback
 		if self._clickCallback != None:
 			del self._clickCallback
+		if self._styling != None:
+			del self._styling
 			
 	def __str__(self):
 		return self._id
@@ -188,6 +193,7 @@ class BaseUIComponent(object):
 				self.Unhover(event)
 	
 	def Drag(self, newMousePosition):
+		pygame.event.post(pygame.event.Event(DRAG, component=self))
 		delta = (self._oldMousePosition[0] - newMousePosition[0], self._oldMousePosition[1] - newMousePosition[1])
 		self.left -= delta[0]
 		self.top -= delta[1]
@@ -235,7 +241,7 @@ class BaseUIComponent(object):
 		# 		onto the events queue
 		# pygame.event.post(pygame.event.Event('ComponentClick', {'id': self._id}))
 		# To do: Enumerate all new client events
-		pygame.event.post(pygame.event.Event(CLICK, id=self.id))
+		pygame.event.post(pygame.event.Event(CLICK, component=self))
 		if self._clickCallback != None:
 			self._clickCallback()
 	
