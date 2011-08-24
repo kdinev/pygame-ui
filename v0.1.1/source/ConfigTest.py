@@ -37,5 +37,6 @@ while True:
 	
 	screen.fill((255, 255, 255))
 	collection.Render()
+	pygame.display.update()
 	clock.tick(70)
 

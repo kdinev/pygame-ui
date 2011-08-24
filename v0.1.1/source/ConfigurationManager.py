@@ -14,6 +14,7 @@
 #	
 #	=======================================================================================
 from xml.dom.minidom import parse
+import pygame
 
 class ConfigurationManager:
 	_parsedDom = None
@@ -207,7 +208,7 @@ class ComponentStyle:
 		
 	@color.setter
 	def color(self, value):
-		self._color = value
+		self._color = self.ParseColor(value);
 		
 	@property
 	def font_size(self):
@@ -313,3 +314,5 @@ class ComponentStyle:
 			else:
 				pass
 				# parse color of type keyword e.g. Black, red, YELLOW, etc.
+		else:
+			return color
