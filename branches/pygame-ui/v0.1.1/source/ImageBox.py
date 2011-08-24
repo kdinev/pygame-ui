@@ -51,9 +51,9 @@ class ImageBox(BaseUIComponent):
 		
 	def _LoadImage(self):
 		self._loadedImage = pygame.image.load(self._imagePath).convert_alpha()
-		if self._width == self._height == 0:
-			self._width = self._loadedImage.get_width()
-			self._height = self._loadedImage.get_height()
+		if self.width == self.height == 0:
+			self.width = self._loadedImage.get_width()
+			self.height = self._loadedImage.get_height()
 		self._InitSurface()
 			
 	def _LoadHoveredImage(self):

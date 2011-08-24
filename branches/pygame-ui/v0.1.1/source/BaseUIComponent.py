@@ -46,7 +46,7 @@ class BaseUIComponent(object):
 			self.styling = config.InitComponentStyle(id)
 		else:
 			self.styling = ComponentStyle()
-			self.left, self.top = upperLeftCornet
+			self.left, self.top = upperLeftCorner
 			self.dimensions = size
 		
 	def __del__(self):
