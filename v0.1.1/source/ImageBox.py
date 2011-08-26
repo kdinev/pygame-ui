@@ -12,7 +12,7 @@
 #	====================================================================================
 
 from BaseUIComponent import BaseUIComponent
-import pygame, os
+import pygame
 
 class ImageBox(BaseUIComponent):
 	
