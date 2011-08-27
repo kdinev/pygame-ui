@@ -14,7 +14,7 @@
 #	
 #	=======================================================================================
 from xml.dom.minidom import parse
-import pygame, os
+import pygame
 from configs.colormap import COLORMAP
 
 class ConfigurationManager:
@@ -36,9 +36,9 @@ class ConfigurationManager:
 			
 		xmlReader.close()
 	
-	# returns object of type ComponentStyle or None if a component with the specified id does not exist 
+	# returns object of type StylingManager or None if a component with the specified id does not exist 
 	# in the current configuration
-	def InitComponentStyle(self, componentId):
+	def InitStylingManager(self, componentId):
 		if self._parsedDom.documentElement.nodeName != 'configuration':
 			raise TypeError('Incorrect root node: pygame-ui config requires configuration as its root element')
 		if self._stylingElement == None:
@@ -49,7 +49,7 @@ class ConfigurationManager:
 		for child in self._stylingElement.childNodes:
 			if child.nodeName == 'component':
 				if child.getAttribute('id') == componentId:
-					return ComponentStyle(child)
+					return StylingManager(child)
 		else:
 			return None
 			
@@ -66,11 +66,11 @@ class ConfigurationManager:
 		componentList = []
 		for child in self._stylingElement.childNodes:
 			if child.nodeName == 'component':
-				componentList.append((child.getAttribute('id'), child.getAttribute('type'), ComponentStyle(child)))
+				componentList.append((child.getAttribute('id'), child.getAttribute('type'), StylingManager(child)))
 				
 		return componentList
 
-class ComponentStyle:
+class StylingManager:
 	_initialized = False
 	_top = 0
 	_left = 0
@@ -81,8 +81,8 @@ class ComponentStyle:
 	_backgroundImage = None
 	_backgroundColor = None
 	_color = None
-	_fontSize = 0
-	_fontFamily = None
+	_fontSize = 12
+	_fontFamily = 'arial'
 	_textAlign = 'left'
 	_verticalAlign = 'top'
 	_visibility = 'visible'
@@ -288,7 +288,7 @@ class ComponentStyle:
 				elif child.nodeName == 'fontFamily':
 					self._fontFamily = child.firstChild.data
 				elif child.nodeName == 'fontSize':
-					self._fontSize = child.firstChild.data
+					self._fontSize = int(child.firstChild.data)
 				elif child.nodeName == 'backgroundImage':
 					self._backgroundImage = child.firstChild.data
 				elif child.nodeName == 'backgroundColor':
@@ -313,7 +313,14 @@ class ComponentStyle:
 			elif len(color) == 3:
 				return pygame.Color(int(color[0:1] * 2, 16), int(color[1:2] * 2, 16), int(color[2:3] * 2, 16))
 			else:
-				pass
-				# parse color of type keyword e.g. Black, red, YELLOW, etc.
+				return color
 		else:
-			return color
+			if isinstance(color, str):
+				try:
+					self.ParseColor(COLORMAP[color.lower()])
+				except KeyError:
+					raise KeyError('Unrecognized color value provided')
+			elif isinstance(color, tuple):
+				return color
+			else:
+				raise TypeError('Unrecognized argument type provided. ParseColor function accepts RGB color hash strings or keyworded color strings.')

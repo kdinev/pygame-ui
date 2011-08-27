@@ -2,7 +2,9 @@
 import pygame
 from pygame.locals import *
 from sys import exit
+from random import randint
 from UIComponentCollection import UIComponentCollection
+from BaseUIComponent import *
 from Button import Button
 from TextLabel import TextLabel
 from ConfigurationManager import ConfigurationManager
@@ -32,6 +34,9 @@ while True:
 	for event in pygame.event.get():
 		if event.type == QUIT:
 			exit()
+		elif event.type == CLICK:
+			print(event.component.id)
+			label.text = 'CLICK on component with ID=' + event.component.id
 		else:
 			collection.Update(event)
 	
