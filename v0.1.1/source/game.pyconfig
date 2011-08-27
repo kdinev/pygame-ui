@@ -13,6 +13,8 @@
 			<top unit="px">20</top>
 			<left unit="px">300</left>
 			<color>#FF3030</color>
+			<fontFamily>Times New Roman</fontFamily>
+			<fontSize>20</fontSize>
 		</component>
 	</styling>
 

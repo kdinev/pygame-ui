@@ -43,9 +43,9 @@ class BaseUIComponent(object):
 		self._id = id
 		self._parentSurface = parentSurface
 		if config != None:
-			self.styling = config.InitComponentStyle(id)
+			self.styling = config.InitStylingManager(id)
 		else:
-			self.styling = ComponentStyle()
+			self.styling = StylingManager()
 			self.left, self.top = upperLeftCorner
 			self.dimensions = size
 		
@@ -129,6 +129,14 @@ class BaseUIComponent(object):
 		self.styling.left = value
 		
 	@property
+	def visibility(self):
+		return self.styling.visibility
+		
+	@visibility.setter
+	def visibility(self, value):
+		self.styling.visibility = value
+		
+	@property
 	def abs_position(self):
 		return (self._absX, self._absY)
 		
@@ -175,7 +183,8 @@ class BaseUIComponent(object):
 	# ========================= RENDERER =========================	
 		
 	def Render(self):
-		self._parentSurface.blit(self._controlSurface, dest=self.position, area=(0, 0, self.width, self.height))
+		if self.visibility or self.visibility == 'visible':
+			self._parentSurface.blit(self._controlSurface, dest=self.position, area=(0, 0, self.width, self.height))
 			
 	
 	# ========================= EVENT HANDLERS =========================

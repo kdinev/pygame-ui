@@ -18,12 +18,15 @@ class TextLabel(BaseUIComponent):
 	_text = ""									# text of the label
 	_hoveredColor = (127, 127, 127)				# the hovered color of the text
 	
-	def __init__(self, id, parentSurface, upperLeftCorner = (0, 0), size = (0, 0), text = "", font = "arial", textSize = 0, color = (0, 0, 0), hoveredColor = (127, 127, 127), config = None):
+	def __init__(self, id, parentSurface, upperLeftCorner = (0, 0), size = (0, 0), text = "", font = None, fontSize = None, color = None, hoveredColor = (127, 127, 127), config = None):
 		BaseUIComponent.__init__(self, id, parentSurface, upperLeftCorner, size, config)
 		self._text = text
-		self.font_family = font
-		self.font_size = textSize
-		self.color = color
+		if font != None:
+			self.font_family = font
+		if fontSize != None:
+			self.font_size = fontSize
+		if color != None:
+			self.color = color
 		self._hoveredColor = hoveredColor
 		self._InitSurface()
 		self.width = self._controlSurface.get_width()
@@ -37,9 +40,16 @@ class TextLabel(BaseUIComponent):
 	def __str__(self):
 		return self._text
 		
-	def SetText(self, newText):
-		self._text = newText
+	@property
+	def text(self):
+		return self._text
+		
+	@text.setter
+	def text(self, value):
+		self._text = value
 		self._InitSurface()
+		self.width = self._controlSurface.get_width()
+		self.height = self._controlSurface.get_height()
 		
 	@property
 	def font_family(self):
