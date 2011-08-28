@@ -35,7 +35,6 @@ while True:
 		if event.type == QUIT:
 			exit()
 		elif event.type == CLICK:
-			print(event.component.id)
 			label.text = 'CLICK on component with ID=' + event.component.id
 		else:
 			collection.Update(event)
