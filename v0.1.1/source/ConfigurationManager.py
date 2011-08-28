@@ -317,7 +317,7 @@ class StylingManager:
 		else:
 			if isinstance(color, str):
 				try:
-					self.ParseColor(COLORMAP[color.lower()])
+					return self.ParseColor(COLORMAP[color.lower()])
 				except KeyError:
 					raise KeyError('Unrecognized color value provided')
 			elif isinstance(color, tuple):
