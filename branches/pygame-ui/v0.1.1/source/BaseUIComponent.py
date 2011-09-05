@@ -39,15 +39,15 @@ class BaseUIComponent(object):
 	
 	# ========================= CONSTRUCTORS AND DESTRUCTORS =========================
 	
-	def __init__(self, id, parentSurface, upperLeftCorner = (0, 0), size = (0, 0), config = None):
+	def __init__(self, id, parentSurface, config = None):
 		self._id = id
 		self._parentSurface = parentSurface
-		if config != None:
+		if isinstance(config, ConfigurationManager):
 			self.styling = config.InitStylingManager(id)
+		elif isinstance(config, StylingManager):
+			self.styling = config
 		else:
 			self.styling = StylingManager()
-			self.left, self.top = upperLeftCorner
-			self.dimensions = size
 		
 	def __del__(self):
 		if self._controlSurface != None:
@@ -162,7 +162,7 @@ class BaseUIComponent(object):
 	
 	@transparency.setter
 	def transparency(self, value):
-		self._controlSufrace.set_alpha(value)
+		self._controlSurface.set_alpha(value)
 		
 	@property
 	def draggable(self):
@@ -183,7 +183,7 @@ class BaseUIComponent(object):
 	# ========================= RENDERER =========================	
 		
 	def Render(self):
-		if self.visibility or self.visibility == 'visible':
+		if self.visibility == 'visible':
 			self._parentSurface.blit(self._controlSurface, dest=self.position, area=(0, 0, self.width, self.height))
 			
 	

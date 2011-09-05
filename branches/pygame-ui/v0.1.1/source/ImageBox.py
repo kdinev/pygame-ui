@@ -23,8 +23,8 @@ class ImageBox(BaseUIComponent):
 	_loadedHoveredImage = None
 	_loadedClickedImage = None
 	
-	def __init__(self, id, activeScreen, upperLeftCorner = (0, 0), size = (0, 0), imagePath = "", hoveredImagePath = "", clickedImagePath = ""):
-		BaseUIComponent.__init__(self, id, activeScreen, upperLeftCorner, size)
+	def __init__(self, id, activeScreen, imagePath = "", hoveredImagePath = "", clickedImagePath = "", config = None):
+		BaseUIComponent.__init__(self, id, activeScreen, config)
 		self._imagePath = imagePath
 		self._LoadImage()
 		

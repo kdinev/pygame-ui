@@ -16,7 +16,7 @@ height = 600
 
 screen = pygame.display.set_mode((width, height), 0, 32)
 clock = pygame.time.Clock()
-screen.fill((255, 255, 255))
+screen.fill((0, 0, 0))
 pygame.display.set_caption('Configuration Manager Test')
 
 conf = ConfigurationManager('game.pyconfig')
@@ -33,13 +33,14 @@ while True:
     
 	for event in pygame.event.get():
 		if event.type == QUIT:
+			pygame.quit()
 			exit()
 		elif event.type == CLICK:
 			label.text = 'CLICK on component with ID=' + event.component.id
 		else:
 			collection.Update(event)
 	
-	screen.fill((255, 255, 255))
+	screen.fill((0, 0, 0))
 	collection.Render()
 	pygame.display.update()
 	clock.tick(70)
