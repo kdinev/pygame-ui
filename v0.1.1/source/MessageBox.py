@@ -32,14 +32,13 @@ class MessageBox(BaseUIComponent):
 	_minimized = False					# Indicates whether the message box is minimized
 	_size = None						# Default size before minimization
 	
-	def __init__(self, id, parentSurface, upperLeftCorner = (0, 0), size = (0, 0), text = "No text currently", minimized = False):
-		BaseUIComponent.__init__(self, id, parentSurface, upperLeftCorner, size)
+	def __init__(self, id, parentSurface, config = None):
+		BaseUIComponent.__init__(self, id, parentSurface, config)
 		self._InitSurface()
-		self._size = size
-		self.Message(text, 'arial', 12, (0, 0, 0), (0, 0, 0))
-		self._header = MessageBoxHeader(id + '_header', self._controlSurface, (0, 0), (self._width, 20))
-		self._header.SetAbsPosition(upperLeftCorner)
-		self._minimized = minimized
+		self._size = self.dimensions
+		self.Message(config)
+		self._header = MessageBoxHeader(id + '_header', self._controlSurface, config)
+		self._header.SetAbsPosition(self.position)
 		self._header.SetMinimizeCallback(self.ToggleMinimized)
 		self._header.SetCloseCallback(self.Destroy)
 		
@@ -55,7 +54,30 @@ class MessageBox(BaseUIComponent):
 	def __str__(self):
 		return str(self._text)
 		
-	def SetMinimized(self, value):
+	# ===================== Properties =======================
+	
+	@property
+	def text(self):
+		return self._text.text
+		
+	@text.setter
+	def text(self, value):
+		self._text.text = value
+		
+	@property
+	def header_text(self):
+		return self._header.text
+		
+	@header_text.setter
+	def header_text(self, value):
+		self._header.text = value
+		
+	@property
+	def minimized(self):
+		return self._minimized
+		
+	@minimized.setter
+	def minimized(self, value):
 		self._minimized = value
 		if value:
 			self.SetDimensions(self._header.GetDimensions())
@@ -64,18 +86,17 @@ class MessageBox(BaseUIComponent):
 			self.SetDimensions(self._size)
 			self._InitSurface()
 		
-	def GetMinimized(self):
-		return self._minimized
+	# ===================== Methods =======================
 		
 	def _InitSurface(self):
 		if self._controlSurface != None:
 			del self._controlsSurface
 		self._controlSurface = pygame.Surface((self._width, self._height), 0, self._parentSurface)
 		
-	def Message(self, text = "", font = "arial", textSize = 0, color = (0, 0, 0), hoveredColor = (127, 127, 127)):
+	def Message(self, config = None):
 		if self._text != None:
 			del self._text
-		self._text = TextLabel(self._id + '_text', self._controlSurface, (10, 25), (self._width - 20, self._height - 30), text, font, textSize, color, hoveredColor)
+		self._text = TextLabel(self._id + '_text', self._controlSurface, config)
 	
 	def MouseMove(self, event):
 		BaseUIComponent.MouseMove(self, event)
@@ -133,13 +154,12 @@ class MessageBoxHeader(BaseUIComponent):
 	_closeButton = None					# Button for closing(destroying) the message box
 	_backgroundColor = None				# Background color for the header
 	
-	def __init__(self, id, parentSurface, upperLeftCorner = (0, 0), size = (0, 0), backgroundColor = (30, 30, 220)):
-		BaseUIComponent.__init__(self, id, parentSurface, upperLeftCorner, size)
+	def __init__(self, id, parentSurface, config = None):
+		BaseUIComponent.__init__(self, id, parentSurface, config)
 		self._InitSurface()
-		self._backgroundColor = backgroundColor
-		self.CloseButton()
-		self.MinimizeButton()
-		self.HeaderLabel()
+		self.CloseButton(config = config)
+		self.MinimizeButton(config = config)
+		self.HeaderLabel(config = config)
 		
 	def __del__(self):
 		del self._headerLabel
@@ -154,16 +174,26 @@ class MessageBoxHeader(BaseUIComponent):
 	def _InitSurface(self):
 		self._controlSurface = pygame.Surface((self._width, 20), 0, self._parentSurface)
 		
-	def HeaderLabel(self, text = "Message Box", font = "arial", textSize = 18, color = (0, 0, 0), hoveredColor = (0, 0, 0)):
+	def HeaderLabel(self, config):
 		if self._headerLabel != None:
 			del self._headerLabel
-		self._headerLabel = TextLabel(self._id + '_headerLabel', self._controlSurface, (10, 0), (self._width, self._height), text, font, textSize, color, hoveredColor)
+		self._headerLabel = TextLabel(self._id + '_headerLabel', self._controlSurface, config)
 		
-	def MinimizeButton(self, image = DEFAULT_MINIMIZE_BUTTON_IMAGE, hoverImage = DEFAULT_MINIMIZE_BUTTON_HOVERED_IMAGE, clickImage = DEFAULT_MINIMIZE_BUTTON_CLICKED_IMAGE):
-		self._minimizeButton = ImageBox(self._id + '_minimizeButton', self._controlSurface, (self._width - 42, 2), (16, 16), image, hoverImage, clickImage)
+	def MinimizeButton(self, image = DEFAULT_MINIMIZE_BUTTON_IMAGE, hoverImage = DEFAULT_MINIMIZE_BUTTON_HOVERED_IMAGE, clickImage = DEFAULT_MINIMIZE_BUTTON_CLICKED_IMAGE, config = None):
+		self._minimizeButton = ImageBox(self._id + '_minimizeButton', self._controlSurface, image, hoverImage, clickImage, config)
 		
-	def CloseButton(self, image = DEFAULT_CLOSE_BUTTON_IMAGE, hoverImage = DEFAULT_CLOSE_BUTTON_HOVERED_IMAGE, clickImage = DEFAULT_CLOSE_BUTTON_CLICKED_IMAGE):
-		self._closeButton = ImageBox(self._id + '_closeButton', self._controlSurface, (self._width - 20, 2), (16, 16), DEFAULT_CLOSE_BUTTON_IMAGE, DEFAULT_CLOSE_BUTTON_HOVERED_IMAGE, DEFAULT_CLOSE_BUTTON_CLICKED_IMAGE)
+	def CloseButton(self, image = DEFAULT_CLOSE_BUTTON_IMAGE, hoverImage = DEFAULT_CLOSE_BUTTON_HOVERED_IMAGE, clickImage = DEFAULT_CLOSE_BUTTON_CLICKED_IMAGE, config = None):
+		self._closeButton = ImageBox(self._id + '_closeButton', self._controlSurface, DEFAULT_CLOSE_BUTTON_IMAGE, DEFAULT_CLOSE_BUTTON_HOVERED_IMAGE, DEFAULT_CLOSE_BUTTON_CLICKED_IMAGE, config)
+		
+	# ===================== Properties =======================
+	
+	@property
+	def text(self):
+		return self._headerLabel.text
+		
+	@text.setter
+	def text(self, value):
+		self._headerLabel.text = value
 	
 	def SetBackgroundColor(self, color):
 		self._backgroundColor = color

@@ -18,16 +18,8 @@ class TextLabel(BaseUIComponent):
 	_text = ""									# text of the label
 	_hoveredColor = (127, 127, 127)				# the hovered color of the text
 	
-	def __init__(self, id, parentSurface, upperLeftCorner = (0, 0), size = (0, 0), text = "", font = None, fontSize = None, color = None, hoveredColor = (127, 127, 127), config = None):
-		BaseUIComponent.__init__(self, id, parentSurface, upperLeftCorner, size, config)
-		self._text = text
-		if font != None:
-			self.font_family = font
-		if fontSize != None:
-			self.font_size = fontSize
-		if color != None:
-			self.color = color
-		self._hoveredColor = hoveredColor
+	def __init__(self, id, parentSurface, config = None):
+		BaseUIComponent.__init__(self, id, parentSurface, config)
 		self._InitSurface()
 		self.width = self._controlSurface.get_width()
 		self.height = self._controlSurface.get_height()
@@ -58,6 +50,7 @@ class TextLabel(BaseUIComponent):
 	@font_family.setter
 	def font_family(self, value):
 		self.styling.font_family = value
+		self._InitSurface()
 		
 	@property
 	def font_size(self):
@@ -66,6 +59,7 @@ class TextLabel(BaseUIComponent):
 	@font_size.setter
 	def font_size(self, value):
 		self.styling.font_size = value
+		self._InitSurface()
 		
 	@property
 	def color(self):
@@ -74,8 +68,14 @@ class TextLabel(BaseUIComponent):
 	@color.setter
 	def color(self, value):
 		self.styling.color = value
+		self._InitSurface()
 		
-	def SetHoveredColor(self, newColor):
+	@property
+	def hover_color(self):
+		return self._hoveredColor
+		
+	@hover_color.setter
+	def hover_color(self, value):
 		self._hoveredColor = newColor
 		
 	def _InitSurface(self):

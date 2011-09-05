@@ -53,7 +53,28 @@ class ConfigurationManager:
 		else:
 			return None
 			
-	
+	def InitStylingManagerByType(self, node = None, type = None):
+		if node == None:
+			if self._parsedDom.documentElement.nodeName != 'configuration':
+				raise TypeError('Incorrect root node: pygame-ui config requires configuration as its root element')
+			if self._stylingElement == None:
+				self._stylingElement = self._parsedDom.documentElement.getElementsByTagName('styling')[0]
+			if self._stylingElement == None:
+				raise TypeError('Component node does not exist in the current configuration')
+			
+			for child in self._stylingElement.childNodes:
+				if child.nodeName == 'component':
+					if child.getAttribute('type') == type:
+						return StylingManager(child)
+			else:
+				return None
+		else:
+			for child in node.childNodes:
+				if child.nodeName == 'component':
+					if child.getAttribute('type') == type:
+						return StylingManager(child)
+			else:
+				return None
 			
 	def FindAllComponents(self):
 		if self._parsedDom.documentElement.nodeName != 'configuration':
@@ -265,6 +286,14 @@ class StylingManager:
 	@visibility.setter
 	def visibility(self, value):
 		self._visibility = value
+		
+	@property
+	def xml_node(self):
+		return self._xmlNode
+		
+	@xml_node.setter
+	def xml_node(self, value):
+		self._xmlNode = value
 			
 	def InitStyles(self):
 		if self._xmlNode == None:
@@ -324,3 +353,14 @@ class StylingManager:
 				return color
 			else:
 				raise TypeError('Unrecognized argument type provided. ParseColor function accepts RGB color hash strings or keyworded color strings.')
+				
+class DataManager:
+	
+	_xmlNode = None
+	_initialized = False
+	
+	def __init__(self, componentNode = None):
+		if componentNode != None:
+			self._xmlNode = componentNode
+		else:
+			self._initialized = True

@@ -8,6 +8,10 @@
 			<height unit="px">30</height>
 			<top unit="px">20</top>
 			<left unit="px">200</left>
+			<component id="Button1_text" type="TextLabel">
+				<fontSize>18</fontSize>
+				<color>#FF3030</color>
+			</component>
 		</component>
 		<component id="Label1" type="TextLabel">
 			<top unit="px">20</top>
@@ -17,5 +21,11 @@
 			<fontSize>20</fontSize>
 		</component>
 	</styling>
+	
+	<data>
+		<component id="Button1_text" type="TextLebel">
+			<text>Press Me</text>
+		</component>
+	</data>
 
 </configuration>
