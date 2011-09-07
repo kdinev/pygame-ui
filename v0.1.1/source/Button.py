@@ -44,14 +44,24 @@ class Button(BaseUIComponent):
 	def __str__(self):
 		return str(self._label)
 		
+	@property
+	def text(self):
+		return self._label.text
+		
+	@text.setter
+	def text(self, value):
+		self._label.text = value
+		x = (self.width - self._label.width) / 2
+		y = (self.height - self._label.height) / 2
+		self._label.position = (x, y)
+		
 	def _InitSurface(self):
-		self._controlSurface = pygame.Surface((self.width, self.height), 0, self._parentSurface) 
+		self._controlSurface = pygame.Surface((self.width, self.height), 0, self._parentSurface)
 		
 	def Label(self, id, config = None):
 		if self._label != None:
 			del self._label
 		self._label = TextLabel(id, self._controlSurface, config = config)
-		self._label.text = 'Button'
 		x = (self.width - self._label.width) / 2
 		y = (self.height - self._label.height) / 2
 		self._label.position = (x, y)

@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-import pygame
+import pygame, os
 from pygame.locals import *
 from sys import exit
 from random import randint
@@ -7,12 +7,13 @@ from UIComponentCollection import UIComponentCollection
 from BaseUIComponent import *
 from Button import Button
 from TextLabel import TextLabel
+from ImageBox import ImageBox
 from ConfigurationManager import ConfigurationManager
 
 pygame.init()
 
-width = 800
-height = 600
+width = 1280
+height = 768
 
 screen = pygame.display.set_mode((width, height), 0, 32)
 clock = pygame.time.Clock()
@@ -21,10 +22,15 @@ pygame.display.set_caption('Configuration Manager Test')
 
 conf = ConfigurationManager('game.pyconfig')
 button = Button('Button1', parentSurface=screen, config=conf)
+button.text = 'Press Me'
 label = TextLabel('Label1', parentSurface=screen, config=conf)
+pygame_ui = ImageBox('ImageBox1', parentSurface=screen, imagePath=os.path.join('images', 'pygame-ui-banner.png'), config=conf)
+splash_title = ImageBox('ImageBox2', parentSurface=screen, imagePath=os.path.join('images', 'SplashTitlePNG.png'), config=conf)
 collection = UIComponentCollection()
 collection += button
 collection += label
+collection += pygame_ui
+collection += splash_title
 
 collection.Render()
 pygame.display.update()

@@ -230,7 +230,6 @@ class MessageBoxHeader(BaseUIComponent):
 		
 	def Render(self):
 		BaseUIComponent.Render(self)
-		self._controlSurface.fill(self._backgroundColor)
 		self._headerLabel.Render()
 		self._minimizeButton.Render()
 		self._closeButton.Render()
