@@ -23,18 +23,22 @@ class ImageBox(BaseUIComponent):
 	_loadedHoveredImage = None
 	_loadedClickedImage = None
 	
-	def __init__(self, id, activeScreen, imagePath = "", hoveredImagePath = "", clickedImagePath = "", config = None):
-		BaseUIComponent.__init__(self, id, activeScreen, config)
+	def __init__(self, id, parentSurface, imagePath = "", hoveredImagePath = "", clickedImagePath = "", config = None):
+		BaseUIComponent.__init__(self, id, parentSurface, config)
 		self._imagePath = imagePath
 		self._LoadImage()
 		
 		if hoveredImagePath != "":
 			self._hoveredImagePath = hoveredImagePath
 			self._LoadHoveredImage()
+		else:
+			self._loadedHoveredImage = self._loadedImage
 		
 		if clickedImagePath != "":
 			self._clickedImagePath = clickedImagePath
 			self._LoadClickedImage()
+		else:
+			self._loadedClickedImage = self._loadedImage
 			
 		
 	def __del__(self):

@@ -25,6 +25,7 @@ class BaseUIComponent(object):
 	_controlSurface = None		# control's surface created on the screen
 	_styling = None				# the new css-like styling from xml which would take over 
 								# the below definitions inside the component
+	_data = None				# Holds the data manager instance
 	_absX = 0					# upper left corner absolute x-axis position 
 	_absY = 0					# upper left corner absolute y-axis position
 	_draggable = False			# enables the surface to be draggable
@@ -44,6 +45,8 @@ class BaseUIComponent(object):
 		self._parentSurface = parentSurface
 		if isinstance(config, ConfigurationManager):
 			self.styling = config.InitStylingManager(id)
+			if self.styling == None:
+				self.styling = StylingManager()
 		elif isinstance(config, StylingManager):
 			self.styling = config
 		else:
@@ -137,6 +140,14 @@ class BaseUIComponent(object):
 		self.styling.visibility = value
 		
 	@property
+	def background_color(self):
+		return self.styling.background_color
+		
+	@background_color.setter
+	def background_color(self):
+		self.styling.background_color = value
+		
+	@property
 	def abs_position(self):
 		return (self._absX, self._absY)
 		
@@ -180,11 +191,21 @@ class BaseUIComponent(object):
 	def styling(self, value):
 		self._styling = value
 		
+	@property
+	def data(self):
+		return self._data
+		
+	@data.setter
+	def data(self, value):
+		self._data = value
+		
 	# ========================= RENDERER =========================	
 		
 	def Render(self):
 		if self.visibility == 'visible':
 			self._parentSurface.blit(self._controlSurface, dest=self.position, area=(0, 0, self.width, self.height))
+			if self.background_color != None:
+				self._controlSurface.fill(self.background_color)
 			
 	
 	# ========================= EVENT HANDLERS =========================

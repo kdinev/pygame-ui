@@ -20,6 +20,7 @@ from configs.colormap import COLORMAP
 class ConfigurationManager:
 	_parsedDom = None
 	_stylingElement = None
+	_dataElement = None
 	
 	def __init__(self, xmlPath):
 		try:
@@ -75,6 +76,21 @@ class ConfigurationManager:
 						return StylingManager(child)
 			else:
 				return None
+				
+	def InitDataManager(self, componentId):
+		if self._parsedDom.documentElement.nodeName != 'configuration':
+			raise TypeError('Incorrect root node: pygame-ui config requires configuration as its root element')
+		if self._dataElement == None:
+			self._dataElement = self._parsedDom.documentElement.getElementsByTagName('data')[0]
+		if self._dataElement == None:
+			raise TypeError('Component node does not exist in the current configuration')
+		
+		for child in self._dataElement.childNodes:
+			if child.nodeName == 'component':
+				if child.getAttribute('id') == componentId:
+					return DataManager(child)
+		else:
+			return None
 			
 	def FindAllComponents(self):
 		if self._parsedDom.documentElement.nodeName != 'configuration':
@@ -219,7 +235,7 @@ class StylingManager:
 		
 	@background_color.setter
 	def background_color(self, value):
-		self._backgroundColor = value
+		self._backgroundColor = self.ParseColor(value)
 		
 	@property
 	def color(self):
@@ -230,7 +246,7 @@ class StylingManager:
 		
 	@color.setter
 	def color(self, value):
-		self._color = self.ParseColor(value);
+		self._color = self.ParseColor(value)
 		
 	@property
 	def font_size(self):
@@ -358,9 +374,33 @@ class DataManager:
 	
 	_xmlNode = None
 	_initialized = False
+	_data = None
 	
 	def __init__(self, componentNode = None):
 		if componentNode != None:
 			self._xmlNode = componentNode
 		else:
 			self._initialized = True
+			
+	def InitData(self):
+		if self._xmlNode == None:
+			raise TypeError('Component configuration node not found')
+		else:
+			for child in self._xmlNode.childNodes:
+				if child.nodeName == 'data':
+					self._data = child.firstChild.data
+		
+		self._initialized = True
+					
+	# ========================= Properties =========================
+	
+	@property
+	def data(self):
+		if not self._initialized:
+			self.InitData()
+			
+		return self._data
+		
+	@data.setter
+	def data(self, value):
+		self._data = value
