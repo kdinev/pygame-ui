@@ -16,7 +16,7 @@ import pygame
 
 class TextLabel(BaseUIComponent):
 	_text = ""									# text of the label
-	_hoveredColor = (127, 127, 127)				# the hovered color of the text
+	_hoveredColor = (255, 30, 30)				# the hovered color of the text
 	
 	def __init__(self, id, parentSurface, config = None):
 		BaseUIComponent.__init__(self, id, parentSurface, config)

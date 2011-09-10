@@ -22,7 +22,7 @@ class ConfigurationManager:
 	_stylingElement = None
 	_dataElement = None
 	
-	def __init__(self, xmlPath):
+	def __init__(self, xmlPath = 'game.pyconfig'):
 		try:
 			xmlReader = open(xmlPath)
 		except IOError:
@@ -55,6 +55,10 @@ class ConfigurationManager:
 			return None
 			
 	def InitStylingManagerByType(self, node = None, type = None):
+		# To do: Make the method find the component by XPath
+		if type == None:
+			raise ArgumentError('You need to provide a type in order to find a component of that type')
+			
 		if node == None:
 			if self._parsedDom.documentElement.nodeName != 'configuration':
 				raise TypeError('Incorrect root node: pygame-ui config requires configuration as its root element')
