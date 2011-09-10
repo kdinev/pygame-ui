@@ -13,9 +13,11 @@
 from ConfigurationManager import *
 import pygame
 
-CLICK = pygame.USEREVENT + 1
-DRAG  = pygame.USEREVENT + 2
-COUNT = pygame.USEREVENT + 3
+CLICK 	= pygame.USEREVENT + 1
+DRAG  	= pygame.USEREVENT + 2
+HOVER 	= pygame.USEREVENT + 3
+UNHOVER = pygame.USEREVENT + 4
+COUNT 	= pygame.USEREVENT + 5
 
 class BaseUIComponent(object):
 	
@@ -73,15 +75,22 @@ class BaseUIComponent(object):
 	@property
 	def rectangle(self):
 		return self._controlSurface.get_rect(topleft=(self._absX + self.left, self._absY + self.top), w=self.width, h=self.height)
-	
-	def GetRectangle(self):
-		return self._controlSurface.get_rect(topleft=(self._absX + self.left, self._absY + self.top), w=self.width, h=self.height)
 		
-	def SetHoverCallback(self, callback):
-		self._hoverCallback = callback
+	@property
+	def hover_callback(self):
+		return self._hoverCallback
 		
-	def SetClickCallback(self, callback):
-		self._clickCallback = callback
+	@hover_callback.setter
+	def hover_callback(self, value):
+		self._hoverCallback = value
+		
+	@property
+	def click_callback(self):
+		return self._clickCallback
+		
+	@click_callback.setter
+	def click_callback(self, value):
+		self._clickCallback = value
 		
 	@property
 	def width(self):
@@ -192,12 +201,12 @@ class BaseUIComponent(object):
 		self._styling = value
 		
 	@property
-	def data(self):
-		return self._data
+	def parent_surface(self):
+		return self._parentSurface
 		
-	@data.setter
-	def data(self, value):
-		self._data = value
+	@parent_surface.setter
+	def parent_surface(self, value):
+		self._parentSurface = value
 		
 	# ========================= RENDERER =========================	
 		
@@ -212,7 +221,7 @@ class BaseUIComponent(object):
 	
 	def MouseMove(self, event):
 		newMousePosition = pygame.mouse.get_pos()
-		rect = self.GetRectangle()
+		rect = self.rectangle
 		if self._clicked and self.draggable:
 			self.Drag(newMousePosition)
 		else:
@@ -233,7 +242,7 @@ class BaseUIComponent(object):
 	def MouseDown(self, event):
 		newMousePosition = pygame.mouse.get_pos()
 		self._oldMousePosition = newMousePosition
-		rect = self.GetRectangle()
+		rect = self.rectangle
 		clicked = rect.collidepoint(newMousePosition)
 		if clicked:
 			self.Activate()
@@ -244,7 +253,7 @@ class BaseUIComponent(object):
 	# and if the mouse down has also been within component's bounds
 	def MouseUp(self, event):
 		newMousePosition = pygame.mouse.get_pos()
-		rect = self.GetRectangle()
+		rect = self.rectangle
 		clicked = rect.collidepoint(newMousePosition)
 		if self._clicked and clicked:
 			self.Click(event)
@@ -253,11 +262,13 @@ class BaseUIComponent(object):
 	# ========= SECTION OF EVENT METHODS NEEDING A SPECIFIC OVERLOAD WITHIN EACH COMPONENT =========
 	
 	def Hover(self, event):
+		pygame.event.post(pygame.event.Event(HOVER, component=self))
 		self._hovered = True
 		if self._hoverCallback != None:
 			self._hoverCallback()
 	
 	def Unhover(self, event):
+		pygame.event.post(pygame.event.Event(UNHOVER, component=self))
 		self._hovered = False
 		
 	def Activate(self):
