@@ -121,7 +121,7 @@ class StylingManager:
 	_heightUnit = 'px'
 	_backgroundImage = None
 	_backgroundColor = None
-	_color = None
+	_color = (0, 0, 0)
 	_fontSize = 12
 	_fontFamily = 'arial'
 	_textAlign = 'left'

@@ -28,6 +28,21 @@
 			<top>600</top>
 			<left>100</left>
 		</component>
+		<component id="Dialog1" type="MessageBox">
+			<top>100</top>
+			<left>100</left>
+			<width>280</width>
+			<height>180</height>
+			<component type="MessageBoxHeader">
+				<height>45</height>
+				<component type="TextLabel">
+					<color>Aqua blue</color>
+				</component>
+			</component>
+			<component type="TextLabel">
+				<color>#FF3030</color>
+			</component>
+		</component>
 	</styling>
 
 </configuration>

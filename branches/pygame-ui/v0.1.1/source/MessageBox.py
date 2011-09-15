@@ -36,9 +36,11 @@ class MessageBox(BaseUIComponent):
 		BaseUIComponent.__init__(self, id, parentSurface, config)
 		self._InitSurface()
 		self._size = self.dimensions
-		self.Message(config)
-		self._header = MessageBoxHeader(id + '_header', self._controlSurface, config)
-		self._header.SetAbsPosition(self.position)
+		lbl_conf = config.InitStylingManagerByType(self.styling.xml_node, "TextLabel")
+		self.Message(config = lbl_conf)
+		header_conf = config.InitStylingManagerByType(self.styling.xml_node, "MessageBoxHeader")
+		self._header = MessageBoxHeader(id + '_header', self._controlSurface, config = header_conf)
+		self._header.abs_position = self.position
 		self._header.SetMinimizeCallback(self.ToggleMinimized)
 		self._header.SetCloseCallback(self.Destroy)
 		
@@ -91,7 +93,7 @@ class MessageBox(BaseUIComponent):
 	def _InitSurface(self):
 		if self._controlSurface != None:
 			del self._controlsSurface
-		self._controlSurface = pygame.Surface((self._width, self._height), 0, self._parentSurface)
+		self._controlSurface = pygame.Surface((self.width, self.height), 0, self._parentSurface)
 		
 	def Message(self, config = None):
 		if self._text != None:
@@ -104,7 +106,7 @@ class MessageBox(BaseUIComponent):
 
 	def Drag(self, newMousePosition):
 		BaseUIComponent.Drag(self, newMousePosition)
-		self._header.SetAbsPosition(self.position)
+		self._header.abs_position = self.position
 		
 	def MouseDown(self, event):
 		clicked = BaseUIComponent.MouseDown(self, event)
@@ -119,7 +121,7 @@ class MessageBox(BaseUIComponent):
 		BaseUIComponent.Render(self)
 		self._controlSurface.fill((255, 255, 255))
 		self._header.Render()
-		pygame.draw.rect(self._parentSurface, (0, 0, 0), (self._xPosition, self._yPosition, self._width, self._height), 1)
+		pygame.draw.rect(self._parentSurface, (0, 0, 0), (self.left, self.top, self.width, self.height), 1)
 		if not self._minimized:
 			self._text.Render()
 	
@@ -172,7 +174,7 @@ class MessageBoxHeader(BaseUIComponent):
 		return str(self._headerLabel)
 		
 	def _InitSurface(self):
-		self._controlSurface = pygame.Surface((self._width, 20), 0, self._parentSurface)
+		self._controlSurface = pygame.Surface((self.width, 20), 0, self._parentSurface)
 		
 	def HeaderLabel(self, config):
 		if self._headerLabel != None:
@@ -199,16 +201,21 @@ class MessageBoxHeader(BaseUIComponent):
 		self._backgroundColor = color
 		
 	def SetMinimizeCallback(self, callback):
-		self._minimizeButton.SetClickCallback(callback)
+		self._minimizeButton.click_callback = callback
 		
 	def SetCloseCallback(self, callback):
-		self._closeButton.SetClickCallback(callback)
+		self._closeButton.click_callback = callback
 		
-	def SetAbsPosition(self, newPosition):
-		BaseUIComponent.SetAbsPosition(self, newPosition)
-		self._headerLabel.SetAbsPosition(newPosition)
-		self._minimizeButton.SetAbsPosition(newPosition)
-		self._closeButton.SetAbsPosition(newPosition)
+	@property
+	def abs_position(self):
+		return BaseUIComponent.abs_position
+		
+	@abs_position.setter
+	def abs_position(self, value):
+		BaseUIComponent.abs_position = value
+		self._headerLabel.abs_position = value
+		self._minimizeButton.abs_position = value
+		self._closeButton.abs_position = value
 	
 	def MouseMove(self, event):
 		BaseUIComponent.MouseMove(self, event)
