@@ -1,9 +1,10 @@
 __all__ = [
-	'pygame',
+	'pygame',,
+	'ConfigurationManager',
+	'UIComponentCollection',
 	'BaseUIComponent',
 	'TextLabel',
 	'ImageBox',
 	'Button',
-	'MessageBox',
-	'ConfigurationManager'
+	'MessageBox'
 ]

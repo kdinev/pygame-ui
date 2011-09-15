@@ -372,7 +372,7 @@ class StylingManager:
 			elif isinstance(color, tuple):
 				return color
 			else:
-				raise TypeError('Unrecognized argument type provided. ParseColor function accepts RGB color hash strings or keyworded color strings.')
+				raise ArgumentError('Unrecognized argument type provided. ParseColor function accepts RGB color hash strings or keyworded color strings.')
 				
 class DataManager:
 	
