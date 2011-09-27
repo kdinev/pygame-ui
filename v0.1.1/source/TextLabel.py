@@ -12,7 +12,7 @@
 #	====================================================================================
 
 from BaseUIComponent import BaseUIComponent
-import pygame
+import pygame 
 
 class TextLabel(BaseUIComponent):
 	_text = ""									# text of the label
