@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+
+<configuration>
+	
+	<styling>
+		<component id="Button1" type="Button">
+			<width>100</width>
+			<height>60</height>
+			<top>450</top>
+			<left>120</left>
+			<component id="Button1_text" type="TextLabel">
+				<fontSize>16</fontSize>
+				<color>#BBBBBB</color>
+			</component>
+		</component>
+		<component id="Label1" type="TextLabel">
+		</component>
+	</styling>
+
+</configuration>
