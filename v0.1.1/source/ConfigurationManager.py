@@ -34,6 +34,7 @@ class ConfigurationManager:
 		except (TypeError, AttributeError):
 			print('Error processing the configuration')
 			xmlReader.close()
+			raise TypeError('An error has occurred while parsing the configuration document')
 			
 		xmlReader.close()
 	
@@ -363,6 +364,7 @@ class StylingManager:
 				return pygame.Color(int(color[0:1] * 2, 16), int(color[1:2] * 2, 16), int(color[2:3] * 2, 16))
 			else:
 				return color
+		# Color object or string
 		else:
 			if isinstance(color, str):
 				try:
@@ -374,6 +376,7 @@ class StylingManager:
 			else:
 				raise ArgumentError('Unrecognized argument type provided. ParseColor function accepts RGB color hash strings or keyworded color strings.')
 				
+# XML Data Manager
 class DataManager:
 	
 	_xmlNode = None
