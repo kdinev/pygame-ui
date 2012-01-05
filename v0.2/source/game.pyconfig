@@ -1,0 +1,48 @@
+<?xml version="1.0" ?>
+
+<configuration>
+	
+	<styling>
+		<component id="Button1" type="Button">
+			<top unit="px">20</top>
+			<left unit="px">200</left>
+			<component id="Button1_text" type="TextLabel">
+				<fontSize>18</fontSize>
+				<color>#FF3030</color>
+				<fontFamily>Times New Roman</fontFamily>
+				<data>Press me</data>
+			</component>
+		</component>
+		<component id="Label1" type="TextLabel">
+			<top unit="px">20</top>
+			<left unit="px">300</left>
+			<color>#FF3030</color>
+			<fontFamily>Times New Roman</fontFamily>
+			<fontSize>20</fontSize>
+		</component>
+		<component id="ImageBox1" type="ImageBox">
+			<top>50</top>
+			<left>55</left>
+		</component>
+		<component id="ImageBox2" type="ImageBox">
+			<top>600</top>
+			<left>100</left>
+		</component>
+		<component id="Dialog1" type="MessageBox">
+			<top>100</top>
+			<left>100</left>
+			<width>280</width>
+			<height>180</height>
+			<component type="MessageBoxHeader">
+				<height>45</height>
+				<component type="TextLabel">
+					<color>Aqua blue</color>
+				</component>
+			</component>
+			<component type="TextLabel">
+				<color>#FF3030</color>
+			</component>
+		</component>
+	</styling>
+
+</configuration>
