@@ -26,14 +26,10 @@ button = Button('Button1', parentSurface=screen, config=conf)
 button.text = 'Press Me'
 label = TextLabel('Label1', parentSurface=screen, config=conf)
 dialog = MessageBox('Dialog1', parentSurface=screen, config=conf)
-#pygame_ui = ImageBox('ImageBox1', parentSurface=screen, imagePath=os.path.join('images', 'pygame-ui-banner.png'), config=conf)
-#splash_title = ImageBox('ImageBox2', parentSurface=screen, imagePath=os.path.join('images', 'SplashTitlePNG.png'), config=conf)
 collection = UIComponentCollection()
 collection += button
 collection += label
 collection += dialog
-#collection += pygame_ui
-#collection += splash_title
 
 collection.Render()
 pygame.display.update()

@@ -278,10 +278,6 @@ class BaseUIComponent(object):
 		self._clicked = False
 		
 	def Click(self, event):
-		# To do: Implement additional enumeration for the new events that would be pushed
-		# 		onto the events queue
-		# pygame.event.post(pygame.event.Event('ComponentClick', {'id': self._id}))
-		# To do: Enumerate all new client events
 		pygame.event.post(pygame.event.Event(CLICK, component=self))
 		if self._clickCallback != None:
 			self._clickCallback()

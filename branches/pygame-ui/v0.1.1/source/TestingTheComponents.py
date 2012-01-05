@@ -21,8 +21,8 @@ clock = pygame.time.Clock()
 screen.fill((255, 255, 255))
 pygame.display.set_caption('UI Component Test')
 collection = UIComponentCollection()
-label = TextLabel('TextLabel1', screen, (50, 50), (0, 0), 'Hello world!', 'arial', 48)
-label.SetHoveredColor((5, 230, 65))
+label = TextLabel('TextLabel1', screen)
+label.hover_color = (5, 230, 65)
 
 collection.Append(label)
 
