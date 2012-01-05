@@ -26,8 +26,6 @@ class TextLabel(BaseUIComponent):
 		
 	def __del__(self):
 		BaseUIComponent.__del__(self)
-		del self._hoveredColor
-		del self._text
 		
 	def __str__(self):
 		return self._text
@@ -76,7 +74,7 @@ class TextLabel(BaseUIComponent):
 		
 	@hover_color.setter
 	def hover_color(self, value):
-		self._hoveredColor = newColor
+		self._hoveredColor = value
 		
 	def _InitSurface(self):
 		font = pygame.font.SysFont(self.font_family, self.font_size)
