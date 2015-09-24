@@ -1,0 +1,3 @@
+A user interface component framework for python and pygame. Includes individual components currently in development such as Button, ImageBox, TextLabel, MessageBox, InputBox, Panel, etc. Larger components would be developed on top of the basic existing components. Internal event handling system is supported by UIComponentCollection.
+
+Project homepage: http://www.sarconsrealm.org/CodeProjects/pygame-ui/
